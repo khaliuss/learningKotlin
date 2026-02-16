@@ -1,4 +1,4 @@
-package big_project;
+package big_project.corporation
 
 class ProductCard(
     val name: String,

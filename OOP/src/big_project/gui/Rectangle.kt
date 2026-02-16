@@ -1,4 +1,4 @@
-package big_project
+package big_project.gui
 
 class Rectangle(val width: Int=0,
                 val height: Int=0

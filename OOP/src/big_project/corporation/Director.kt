@@ -1,10 +1,11 @@
-package big_project
+package big_project.corporation
 
 class Director(
-    val name: String, val age: Int
-) {
+    name: String,
+    age: Int
+): Worker(name,age) {
 
-    fun takeCoffee(assistant: Assistant, drinkName: String) {
+    fun takeCoffee(assistant: Assistant, drinkName: String="Cappuccino") {
         val drinkName = assistant.bringCoffee()
         println("Thank you, ${assistant.name}! The $drinkName is very tasty :)")
     }

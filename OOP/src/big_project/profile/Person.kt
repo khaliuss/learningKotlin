@@ -1,4 +1,4 @@
-package big_project
+package big_project.profile
 
 class Person {
 

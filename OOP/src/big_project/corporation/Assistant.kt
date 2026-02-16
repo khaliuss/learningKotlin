@@ -1,9 +1,12 @@
-package big_project
+package big_project.corporation
 
-class Assistant(val name:String) {
+class Assistant(
+    name: String,
+    age: Int= 0
+) : Worker(name,age) {
 
-    fun bringCoffee(drinkName: String="Cappuccino", count: Int=1): String {
-        repeat (count) {
+    fun bringCoffee(drinkName: String = "Cappuccino", count: Int = 1): String {
+        repeat(count) {
             println("Get up")
             println("Go to the coffee machine")
             println("Press the \"$drinkName\" button")
