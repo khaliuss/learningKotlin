@@ -1,9 +1,9 @@
-package big_project.corporation
+package big_project.files
 
 enum class OperationCode(val title: String) {
 
     EXIT(  "Exit"),
-    REGISTER_NEW_ITEM("Register new item"),
+    ADD_NEW_ITEM("Add new item"),
     SHOW_ALL_ITEMS("Show all items")
 
 }
