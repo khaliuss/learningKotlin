@@ -1,14 +1,13 @@
 package big_project.corporation
 
-class ProductCard(
+open class ProductCard(
     val name: String,
     val brand: String,
-    val size: Float,
     val price: Int
 ) {
 
-    fun printInfo() {
-        println("Name: ${this.name} Brand: ${this.brand} Size: ${this.size} Price: ${this.price}")
+    open fun printInfo() {
+        print("Name: ${this.name} Brand: ${this.brand} Price: ${this.price} ")
     }
 
 }
