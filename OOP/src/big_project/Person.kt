@@ -7,4 +7,15 @@ class Person {
     var height: Int = 0
     var weight: Int = 0
 
+    fun sayHello() {
+        println("Hello!")
+    }
+
+    fun run() {
+        repeat(10) {
+            print("Running... ")
+        }
+        println()
+    }
+
 }
