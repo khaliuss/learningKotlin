@@ -2,7 +2,7 @@ package big_project
 
 class Assistant {
 
-    fun bringCoffee(drinkName: String, count: Int) {
+    fun bringCoffee(drinkName: String="Cappuccino", count: Int=1) {
         repeat (count) {
             println("Get up")
             println("Go to the coffee machine")

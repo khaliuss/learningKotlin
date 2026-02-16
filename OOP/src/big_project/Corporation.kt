@@ -2,15 +2,7 @@ package big_project
 
 fun main() {
 
-    print("Enter name: ")
-    val name = readln()
-    print("Enter brand: ")
-    val brand = readln()
-    print("Enter size: ")
-    val size = readln().toFloat()
-    print("Enter price: ")
-    val price = readln().toInt()
-    val productCard = ProductCard(brand = brand, name = name, size = size, price = price)
-    productCard.printInfo()
+    val consultant = Consultant(name = "Nick", age = 200)
+    consultant.sayHello()
 
 }
