@@ -6,19 +6,42 @@ class Accountant(
 ) : Worker(name, age) {
 
     override fun work() {
+        val operationCodes = OperationCode.entries
         while (true) {
-            print("Enter the operation code. O - exit, 1 - register new item: ")
-            val operation = readln().toInt()
-            when (operation) {
-                0 -> break
-                1 -> registerNewItem()
+            print("Enter the operation code. ")
+            for ((index, code) in operationCodes.withIndex()) {
+                print("$index - ${code.title}")
+                if (index < operationCodes.size - 1) {
+                    print(", ")
+                } else {
+                    print(": ")
+                }
+            }
+            val operationIndex = readln().toInt()
+            val operationCode = operationCodes[operationIndex]
+            when (operationCode) {
+                OperationCode.EXIT -> break
+                OperationCode.REGISTER_NEW_ITEM -> registerNewItem()
             }
         }
     }
 
     private fun registerNewItem() {
-        print("Enter the product type. 0 -IFood, 1 - Appliance, 2 - Shoe: ")
-        val productType = readln().toInt()
+        val productTypes = ProductType.entries
+        print("Enter the product type. ")
+        for ((index, type) in productTypes.withIndex()) {
+            print("$index - ${type.title},")
+
+            if (index < productTypes.size) {
+                print(",")
+            } else {
+                print(": ")
+            }
+
+        }
+
+        val productTypeIndex = readln().toInt()
+        val productType: ProductType = productTypes[productTypeIndex]
         print("Enter the product name: ")
         val productName = readln()
         print("Enter the product brand: ")
@@ -27,7 +50,7 @@ class Accountant(
         val productPrice = readln().toInt()
 
         val productCard = when (productType) {
-            0 -> {
+            ProductType.FOOD -> {
                 print("Enter the caloric: ")
                 val caloric = readln().toInt()
                 FoodCard(
@@ -37,7 +60,8 @@ class Accountant(
                     caloric = caloric
                 )
             }
-            1 -> {
+
+            ProductType.APPLIANCE -> {
                 print("Enter the wattage: ")
                 val wattage = readln().toInt()
                 ApplianceCard(
@@ -47,7 +71,8 @@ class Accountant(
                     wattage = wattage
                 )
             }
-            else -> {
+
+            ProductType.SHOE -> {
                 print("Enter the size: ")
                 val size = readln().toFloat()
                 ShoeCard(
@@ -59,9 +84,5 @@ class Accountant(
             }
         }
         productCard.printInfo()
-
-
     }
-
-
 }
