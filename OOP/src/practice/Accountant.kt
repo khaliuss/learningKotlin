@@ -1,5 +1,7 @@
 package practice
 
+import practice.enums.ProductType
+
 class Accountant {
 
 
@@ -8,29 +10,32 @@ class Accountant {
             print("Enter the operation code. 0 - exit, 1 - register new item: ")
             val continueChoice = readln().toInt()
 
-            if (continueChoice == 0) break;
-
-            print("Enter the product type. O - Food, 1 - Appliance, 2 - Shoe: ")
-            val productChoice = readln().toInt()
-
-            when (productChoice) {
+            when (continueChoice) {
                 0 -> {
-                    chosen(0)
+                    break
                 }
 
                 1 -> {
-                    chosen(1)
-                }
-
-                2 -> {
-                    chosen(2)
+                    registerNewItem()
                 }
             }
         }
     }
 
-    private fun chosen(product: Int) {
+    private fun registerNewItem() {
+        val productTypes = ProductType.entries
+        print("Enter the product type. ")
+        for ((index, type) in productTypes.withIndex()) {
+            print("$index - ${type.title}")
+            if (index < productTypes.size - 1) {
+                print(", ")
+            } else {
+                print(": ")
+            }
+        }
 
+        val productTypeIndex = readln().toInt()
+        val productType = productTypes[productTypeIndex]
         print("Enter the product name: ")
         val name = readln()
         print("Enter the product brand: ")
@@ -38,30 +43,26 @@ class Accountant {
         print("Enter the product price: ")
         val price = readln().toInt()
 
-        when (product) {
-            0 -> {
+        var productCard = when (productType) {
+            ProductType.FOOD -> {
                 print("Enter the calories: ")
                 val calories = readln().toInt()
-                val food = FoodCard(name, brand, price, calories)
-                food.printInfo()
+                FoodCard(name, brand, price, calories)
             }
 
-            1 -> {
+            ProductType.APPLIANCE -> {
                 print("Enter the wattage: ")
                 val wattage = readln().toInt()
-                val appliance = AppliancesCard(name, brand, price, wattage)
-                appliance.printInfo()
+                AppliancesCard(name, brand, price, wattage)
             }
 
-            2 -> {
+            ProductType.SHOE -> {
                 print("Enter the size: ")
                 val size = readln().toFloat()
-                val shoe = ShoeCard(name, brand, price, size)
-                shoe.printInfo()
+                ShoeCard(name, brand, price, size)
             }
         }
-
-
+        productCard.printInfo()
     }
 
 }
