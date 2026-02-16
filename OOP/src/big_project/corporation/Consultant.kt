@@ -7,6 +7,10 @@ class Consultant(
     age: Int=0
 ) : Worker(name,age) {
 
+    override fun work() {
+        serveCustomers()
+    }
+
     fun serveCustomers(): Int {
         val count = Random.nextInt(0, 100)
         repeat(count) {
