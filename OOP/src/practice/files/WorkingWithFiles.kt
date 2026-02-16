@@ -11,48 +11,44 @@ fun main() {
     readTasks()
 }
 
-private fun choosingOperation(){
+private fun choosingOperation() {
     val operations = OperationCode.entries
-    while (true){
+    while (true) {
         print("Enter the operation code. ")
-        for ((index,operation) in operations.withIndex()){
+        for ((index, operation) in operations.withIndex()) {
             print("$index - ${operation.title}")
-            if (index < operations.size-1){
+            if (index < operations.size - 1) {
                 print(", ")
-            }else{
+            } else {
                 print(": ")
             }
         }
         val codeIndex = readln().toInt()
         val operation = operations[codeIndex]
 
-        when (operation){
+        when (operation) {
             OperationCode.EXIT -> break
             OperationCode.ADD_NEW_TASK -> writeTask()
             OperationCode.SHOW_ALL_TASKS -> readTasks()
         }
 
 
-
     }
 
 }
 
-private fun writeTask(){
-    while (true){
+private fun writeTask() {
+    while (true) {
         val task = readln()
         file.appendText("$task\n")
     }
 }
 
-private fun readTasks(){
+private fun readTasks() {
     val content = file.readText().trim()
     val items = content.split("\n")
-    val itemList  = mutableListOf<String>()
-    for ((index,item) in items.withIndex()){
+    val itemList = mutableListOf<String>()
+    for ((index, item) in items.withIndex()) {
         println("$index - $item")
     }
-
-
-
 }
