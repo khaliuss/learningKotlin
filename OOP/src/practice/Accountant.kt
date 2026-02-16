@@ -1,24 +1,43 @@
 package practice
 
+import practice.enums.OperationCode
 import practice.enums.ProductType
 
 class Accountant {
 
+    val items = mutableListOf<ProductCard>()
 
     fun work() {
+
+        val operationCodes = OperationCode.entries
         while (true) {
-            print("Enter the operation code. 0 - exit, 1 - register new item: ")
-            val continueChoice = readln().toInt()
-
-            when (continueChoice) {
-                0 -> {
-                    break
-                }
-
-                1 -> {
-                    registerNewItem()
+            print("Enter the operation code. ")
+            for ((index, code) in operationCodes.withIndex()) {
+                print("$index - ${code.title}")
+                if (index < operationCodes.size - 1) {
+                    print(", ")
+                } else {
+                    print(": ")
                 }
             }
+
+            val operationIndex = readln().toInt()
+            val operationCode = operationCodes[operationIndex]
+
+            when (operationCode) {
+
+                OperationCode.EXIT -> break
+                OperationCode.REGISTER_NEW_ITEM -> registerNewItem()
+                OperationCode.SHOW_ALL_ITEMS -> showAllItems()
+            }
+
+        }
+
+    }
+
+    private fun showAllItems(){
+        for (item in items){
+            item.printInfo()
         }
     }
 
@@ -62,7 +81,7 @@ class Accountant {
                 ShoeCard(name, brand, price, size)
             }
         }
-        productCard.printInfo()
-    }
+        items.add(productCard)
+     }
 
 }
