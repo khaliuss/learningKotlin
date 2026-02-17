@@ -7,7 +7,6 @@ class Accountant(
     age: Int = 0
 ) : Worker(name, age) {
 
-    val items = mutableListOf<ProductCard>()
     val file = File("product_card.txt")
 
     override fun work() {
@@ -28,9 +27,89 @@ class Accountant(
                 OperationCode.EXIT -> break
                 OperationCode.REGISTER_NEW_ITEM -> registerNewItem()
                 OperationCode.SHOW_ALL_ITEMS -> showAllItems()
+                OperationCode.REMOVE_PRODUCT_CARD -> removeProductCard()
             }
         }
 
+    }
+
+    private fun removeProductCard() {
+        val cards = getAllProducts()
+        print("Enter name of card for removing: ")
+        val name = readln()
+        for (card in cards) {
+            if (card.name == name){
+                cards.remove(card)
+            }
+            break
+        }
+        file.writeText("")
+
+        for (card in cards) {
+            saveProductCardToFile(card)
+        }
+    }
+
+    fun saveProductCardToFile(productCard: ProductCard) {
+        file.appendText("${productCard.name}%")
+        file.appendText("${productCard.brand}%")
+        file.appendText("${productCard.price}%")
+        when (productCard) {
+            is FoodCard -> {
+                file.appendText("${productCard.caloric}%${ProductType.FOOD}")
+            }
+
+            is ApplianceCard -> {
+                file.appendText("${productCard.wattage}%${ProductType.APPLIANCE}")
+            }
+
+            is ShoeCard -> {
+                file.appendText("${productCard.size}%${ProductType.SHOE}")
+            }
+        }
+
+        file.appendText("\n")
+    }
+
+    private fun getAllProducts(): MutableList<ProductCard> {
+        val cards = mutableListOf<ProductCard>()
+
+        val allText = file.readText().trim()
+        val lines = allText.split("\n")
+
+        for (line in lines) {
+            if (line.trim().isEmpty()){
+                print("There no items found\n")
+                work()
+                break
+            }
+            val properties = line.split("%")
+            val name = properties[0]
+            val brand = properties[1]
+            val price = properties[2].toInt()
+
+            val productType = ProductType.valueOf(properties.last())
+
+            val product = when (productType) {
+                ProductType.FOOD -> {
+                    val caloric = properties[3].toInt()
+                    FoodCard(name, brand, price, caloric)
+                }
+
+                ProductType.APPLIANCE -> {
+                    val wattage = properties[3].toInt()
+                    ApplianceCard(name, brand, price, wattage)
+                }
+
+                ProductType.SHOE -> {
+                    val size = properties[3].toFloat()
+                    ShoeCard(name, brand, price, size)
+                }
+            }
+            cards.add(product)
+        }
+
+        return cards
     }
 
 
@@ -63,11 +142,9 @@ class Accountant(
                 }
             }
 
-            items.add(product)
+            product.printInfo()
         }
-        for (item in items) {
-            item.printInfo()
-        }
+
     }
 
 
