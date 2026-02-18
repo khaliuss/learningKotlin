@@ -3,36 +3,30 @@ package big_project.profile
 fun main() {
     print("Input 1st name: ")
     val firstName = readln()
-    print("Input 2nd name: ")
+    print("Input 1st second name: ")
     val secondName = readln()
     print("Input Ist age: ")
     val firstAge = readln().toInt()
-    print("Input 2nd age: ")
-    val secondAge = readln().toInt()
     print("Input Ist height: ")
     val firstHeight = readln().toInt()
-    print("Input 2nd height: ")
-    val secondHeight = readln().toInt()
     print("Input 1st weight: ")
     val firstWeight = readln().toInt()
-    print("Input 2nd weight: ")
-    val secondWeight = readln().toInt()
 
-    val first = Person(name = firstName,  height = firstHeight, weight = firstWeight)
-    val second = Person(name = secondName, height = secondHeight, weight = secondWeight)
+
+    val first = Person(name = firstName, secondName , height = firstHeight, weight = firstWeight)
+
     first.age = 12
-    second.age = 12
-
-
 
     first.printInfo()
-    second.printInfo()
 
     first.sayHello()
-    second.sayHello()
 
     first.age=7
     first.age
+
+    first.secondName = "Unknown"
+
+    print("fullName -------> ${first.fullName}")
 
 
 }

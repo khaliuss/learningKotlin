@@ -4,6 +4,7 @@ import practice.files.file
 
 class Person(
     private val name: String,
+    var secondName: String,
     private val height: Int,
     private val weight: Int
 ) {
@@ -21,17 +22,16 @@ class Person(
             return field
         }
 
-    fun askAboutAge(): Int{
-        return age
-    }
+    val fullName: String
+        get() = "$name $secondName"
 
     fun sayHello() {
-        println("Hello! My name is $name!")
+        println("Hello! My name is $name $secondName!")
     }
 
 
     fun printInfo() {
-        println("Name: $name Age:$age Sage Height: $height Weight: $weight")
+        println("Name: $name Second name: $secondName  Age:$age Sage Height: $height Weight: $weight")
     }
 
     fun run() {
