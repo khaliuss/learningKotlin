@@ -28,7 +28,11 @@ class Accountant(
             val operationIndex = readln().toInt()
             val operationCode = operationCodes[operationIndex]
             when (operationCode) {
-                OperationCode.EXIT -> break
+                OperationCode.EXIT -> {
+                    repositoryWorker.saveChanges()
+                    repositoryProduct.saveChanges()
+                    break
+                }
                 OperationCode.REGISTER_NEW_ITEM -> registerNewItem()
                 OperationCode.SHOW_ALL_ITEMS -> showAllItems()
                 OperationCode.REMOVE_PRODUCT_CARD -> removeProductCard()
@@ -50,7 +54,7 @@ class Accountant(
     }
 
     private fun showAllEmployees() {
-        val employees = repositoryWorker.getAllEmployees()
+        val employees = repositoryWorker.workers
         for (employee in employees) {
             employee.personInf()
         }
@@ -93,7 +97,7 @@ class Accountant(
             WorkerPosition.CONSULTANT -> Consultant(id, name, age)
         }
         employee.salary = salary
-        repositoryWorker.saveEmployee(employee)
+        repositoryWorker.registerNewEmployee(employee)
     }
 
 
@@ -109,7 +113,7 @@ class Accountant(
 
 
     private fun showAllItems() {
-        val productCards = repositoryProduct.getAllProducts()
+        val productCards = repositoryProduct.products
         for (card in productCards) {
             card.printInfo()
         }
