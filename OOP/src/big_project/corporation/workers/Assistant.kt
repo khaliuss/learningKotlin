@@ -5,8 +5,8 @@ import big_project.corporation.enums.WorkerPosition
 class Assistant(
     id: Int,
     name: String,
-    age: Int= 0
-) : Worker(id,name,age,WorkerPosition.ASSISTANT) {
+    age: Int = 0
+) : Worker(id, name, age, WorkerPosition.ASSISTANT), Cleaner, Supplier {
 
     override fun work() {
         println("I'm answering the phone now....")
@@ -24,6 +24,14 @@ class Assistant(
             println("Return to the workplace")
         }
         return drinkName
+    }
+
+    override fun clean() {
+        println("My position is ${position.title}.I'm cleaning work space ")
+    }
+
+    override fun buy() {
+        println("My position is ${position.title}.I'm buying things ")
     }
 
 }

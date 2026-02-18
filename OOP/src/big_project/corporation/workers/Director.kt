@@ -6,7 +6,7 @@ class Director(
     id: Int,
     name: String,
     age: Int
-): Worker(id,name,age,WorkerPosition.DIRECTOR) {
+): Worker(id,name,age,WorkerPosition.DIRECTOR),Supplier{
 
     override fun work() {
         println("I'm drinking coffee...")
@@ -20,5 +20,9 @@ class Director(
     fun getConsultantToWork(consultant: Consultant) {
         val count = consultant.serveCustomers()
         println("Consultant ${consultant.name} served $count clients ")
+    }
+
+    override fun buy() {
+        println("My position is ${position.title}.I'm buying things ")
     }
 }

@@ -13,7 +13,7 @@ class Accountant(
     id: Int,
     name: String,
     age: Int = 0
-) : Worker(id,name, age, WorkerPosition.ACCOUNTANT) {
+) : Worker(id,name, age, WorkerPosition.ACCOUNTANT), Cleaner,Supplier {
 
     private val productFile = File("product_card.txt")
     private val employeeFile = File("employees.txt")
@@ -64,7 +64,7 @@ class Accountant(
         }
     }
 
-    private fun getAllEmployees(): MutableList<Worker>{
+    fun getAllEmployees(): MutableList<Worker>{
         val employees = mutableListOf<Worker>()
 
         if (!employeeFile.exists()) employeeFile.createNewFile()
@@ -84,7 +84,7 @@ class Accountant(
             val worker = when(position){
                 WorkerPosition.DIRECTOR -> Director(id,name,age)
                 WorkerPosition.ACCOUNTANT -> Accountant(id,name,age)
-                WorkerPosition.ASSISTANT -> Accountant(id,name,age)
+                WorkerPosition.ASSISTANT -> Assistant(id,name,age)
                 WorkerPosition.CONSULTANT -> Consultant(id,name,age)
             }
             employees.add(worker)
@@ -119,7 +119,7 @@ class Accountant(
         val employee = when(workerType){
             WorkerPosition.DIRECTOR -> Director(id,name,age)
             WorkerPosition.ACCOUNTANT -> Accountant(id,name,age)
-            WorkerPosition.ASSISTANT -> Accountant(id,name,age)
+            WorkerPosition.ASSISTANT -> Assistant(id,name,age)
             WorkerPosition.CONSULTANT -> Consultant(id,name,age)
         }
         saveEmployee(employee)
@@ -272,6 +272,14 @@ class Accountant(
             }
         }
         saveProductCardToFile(productCard)
+    }
+
+    override fun clean() {
+        println("My position is ${position.title}.I'm cleaning work space ")
+    }
+
+    override fun buy() {
+        println("My position is ${position.title}.I'm buying things ")
     }
 
 
