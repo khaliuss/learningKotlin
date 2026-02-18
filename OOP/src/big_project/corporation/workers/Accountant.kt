@@ -1,13 +1,12 @@
 package big_project.corporation.workers
 
+import big_project.corporation.enums.OperationCode
+import big_project.corporation.enums.ProductType
+import big_project.corporation.enums.WorkerPosition
 import big_project.corporation.shop.ApplianceCard
 import big_project.corporation.shop.FoodCard
 import big_project.corporation.shop.ProductCard
 import big_project.corporation.shop.ShoeCard
-import big_project.corporation.enums.OperationCode
-import big_project.corporation.enums.ProductType
-import big_project.corporation.enums.WorkerPosition
-import java.io.File
 
 class Accountant(
     id: Int,
@@ -15,8 +14,9 @@ class Accountant(
     age: Int = 0
 ) : Worker(id, name, age, WorkerPosition.ACCOUNTANT), Cleaner, Supplier {
 
-    private val productFile = File("product_card.txt")
-    private val employeeFile = File("employees.txt")
+    private val repositoryWorker = WorkerRepository()
+    private val repositoryProduct = ProductRepository()
+
 
     override fun work() {
         val operationCodes = OperationCode.entries
@@ -46,75 +46,25 @@ class Accountant(
         val id: Int = readln().toInt()
         print("Enter new salary: ")
         val salary: Int = readln().toInt()
-        val employees: MutableList<Worker> = getAllEmployees()
-        employeeFile.writeText("")
-        for (employee: Worker in employees) {
-            if (employee.id == id) {
-                employee.salary = salary
-            }
-            saveEmployee(employee)
-        }
+        repositoryWorker.changeSalary(id, salary)
     }
 
     private fun showAllEmployees() {
-        val employees = getAllEmployees()
+        val employees = repositoryWorker.getAllEmployees()
         for (employee in employees) {
             employee.personInf()
         }
     }
 
     private fun fireEmployee() {
-        val employees = getAllEmployees()
         print("Enter employee's id to fire: ")
         val id = readln().toInt()
-        for (employee in employees) {
-            if (employee.id == id) {
-                employees.remove(employee)
-                break
-            }
-        }
-        employeeFile.writeText("")
-
-        for (employee in employees) {
-            saveEmployee(employee)
-        }
-    }
-
-    fun getAllEmployees(): MutableList<Worker> {
-        val employees = mutableListOf<Worker>()
-
-        if (!employeeFile.exists()) employeeFile.createNewFile()
-        val allText = employeeFile.readText().trim()
-        if (allText.isEmpty()) return employees
-
-        val lines = allText.split("\n")
-        for (line in lines) {
-            val properties = line.split("%")
-            val id = properties[0].toInt()
-            val name = properties[1]
-            val age = properties[2].toInt()
-            val salary = properties[3].toInt()
-            val type = properties.last()
-
-            val position = WorkerPosition.valueOf(type)
-
-            val worker = when (position) {
-                WorkerPosition.DIRECTOR -> Director(id, name, age)
-                WorkerPosition.ACCOUNTANT -> Accountant(id, name, age)
-                WorkerPosition.ASSISTANT -> Assistant(id, name, age)
-                WorkerPosition.CONSULTANT -> Consultant(id, name, age)
-            }
-            worker.salary = salary
-            employees.add(worker)
-        }
-
-        return employees
+        repositoryWorker.fireEmployee(id)
     }
 
 
     private fun registerNewEmployee() {
         val workerTypes = WorkerPosition.entries
-
         print("Choose position -")
         for ((index, type) in workerTypes.withIndex()) {
             print("$index - ${type.title}")
@@ -143,88 +93,23 @@ class Accountant(
             WorkerPosition.CONSULTANT -> Consultant(id, name, age)
         }
         employee.salary = salary
-        saveEmployee(employee)
-    }
-
-    private fun saveEmployee(employee: Worker) {
-        employeeFile.appendText("${employee.id}%${employee.name}%${employee.age}%${employee.salary}%${employee.position}\n")
+        repositoryWorker.saveEmployee(employee)
     }
 
 
     private fun removeProductCard() {
-        val cards = getAllProducts()
         print("Enter name of card for removing: ")
-        val name = readln()
-        for (card in cards) {
-            if (card.name == name) {
-                cards.remove(card)
-            }
-            break
-        }
-        productFile.writeText("")
-
-        for (card in cards) {
-            saveProductCardToFile(card)
-        }
+        val name = readln().trim()
+        repositoryProduct.removeProductCard(name)
     }
 
-    private fun saveProductCardToFile(productCard: ProductCard) {
-        productFile.appendText("${productCard.name}%${productCard.brand}%${productCard.price}%")
-        when (productCard) {
-            is FoodCard -> {
-                productFile.appendText("${productCard.caloric}%")
-            }
-
-            is ApplianceCard -> {
-                productFile.appendText("${productCard.wattage}%")
-            }
-
-            is ShoeCard -> {
-                productFile.appendText("${productCard.size}%")
-            }
-        }
-        productFile.appendText("${productCard.productType}\n")
-    }
-
-    private fun getAllProducts(): MutableList<ProductCard> {
-        val cards = mutableListOf<ProductCard>()
-        if (!productFile.exists()) productFile.createNewFile()
-        val allText = productFile.readText().trim()
-        val lines = allText.split("\n")
-
-        for (line in lines) {
-            val properties = line.split("%")
-            val name = properties[0]
-            val brand = properties[1]
-            val price = properties[2].toInt()
-
-            val productType = ProductType.valueOf(properties.last())
-
-            val product = when (productType) {
-                ProductType.FOOD -> {
-                    val caloric = properties[3].toInt()
-                    FoodCard(name, brand, price, caloric)
-                }
-
-                ProductType.APPLIANCE -> {
-                    val wattage = properties[3].toInt()
-                    ApplianceCard(name, brand, price, wattage)
-                }
-
-                ProductType.SHOE -> {
-                    val size = properties[3].toFloat()
-                    ShoeCard(name, brand, price, size)
-                }
-            }
-            cards.add(product)
-        }
-
-        return cards
+    private fun saveProduct(productCard: ProductCard) {
+        repositoryProduct.saveProduct(productCard)
     }
 
 
     private fun showAllItems() {
-        val productCards = getAllProducts()
+        val productCards = repositoryProduct.getAllProducts()
         for (card in productCards) {
             card.printInfo()
         }
@@ -286,7 +171,7 @@ class Accountant(
                 )
             }
         }
-        saveProductCardToFile(productCard)
+        saveProduct(productCard)
     }
 
     override fun clean() {
