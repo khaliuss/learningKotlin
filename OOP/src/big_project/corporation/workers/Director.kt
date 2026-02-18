@@ -1,9 +1,12 @@
-package big_project.corporation
+package big_project.corporation.workers
+
+import big_project.corporation.enums.WorkerPosition
 
 class Director(
+    id: Int,
     name: String,
     age: Int
-): Worker(name,age) {
+): Worker(id,name,age,WorkerPosition.DIRECTOR) {
 
     override fun work() {
         println("I'm drinking coffee...")

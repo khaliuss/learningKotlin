@@ -1,4 +1,6 @@
-package big_project.corporation
+package big_project.corporation.shop
+
+import big_project.corporation.enums.ProductType
 
 open class ProductCard(
     val name: String,

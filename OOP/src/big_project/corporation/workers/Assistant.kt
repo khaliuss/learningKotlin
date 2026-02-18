@@ -1,9 +1,12 @@
-package big_project.corporation
+package big_project.corporation.workers
+
+import big_project.corporation.enums.WorkerPosition
 
 class Assistant(
+    id: Int,
     name: String,
     age: Int= 0
-) : Worker(name,age) {
+) : Worker(id,name,age,WorkerPosition.ASSISTANT) {
 
     override fun work() {
         println("I'm answering the phone now....")
