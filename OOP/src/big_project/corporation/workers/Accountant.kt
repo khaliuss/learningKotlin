@@ -14,8 +14,8 @@ class Accountant(
     age: Int = 0
 ) : Worker(id, name, age, WorkerPosition.ACCOUNTANT), Cleaner, Supplier {
 
-    private val repositoryWorker = WorkerRepository()
-    private val repositoryProduct = ProductRepository()
+    private val repositoryWorker = WorkerRepository
+    private val repositoryProduct = ProductRepository
 
 
     override fun work() {

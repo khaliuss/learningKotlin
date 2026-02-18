@@ -3,7 +3,7 @@ package big_project.corporation.workers
 import big_project.corporation.enums.WorkerPosition
 import java.io.File
 
-class WorkerRepository {
+object WorkerRepository {
 
     private val employeeFile = File("employees.txt")
     val workers = getAllEmployees()

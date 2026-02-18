@@ -7,7 +7,7 @@ import big_project.corporation.shop.ProductCard
 import big_project.corporation.shop.ShoeCard
 import java.io.File
 
-class ProductRepository {
+object ProductRepository {
 
     private val productFile = File("product_card.txt")
     val products = getAllProducts()
