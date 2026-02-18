@@ -15,8 +15,8 @@ class Accountant(
     age: Int = 0
 ) : Worker(id,name, age, WorkerPosition.ACCOUNTANT) {
 
-    val productFile = File("product_card.txt")
-    val employeeFile = File("employees.txt")
+    private val productFile = File("product_card.txt")
+    private val employeeFile = File("employees.txt")
 
     override fun work() {
         val operationCodes = OperationCode.entries
@@ -67,6 +67,7 @@ class Accountant(
     private fun getAllEmployees(): MutableList<Worker>{
         val employees = mutableListOf<Worker>()
 
+        if (!employeeFile.exists()) employeeFile.createNewFile()
         val allText = employeeFile.readText().trim()
         if (allText.isEmpty()) return employees
 
@@ -147,7 +148,7 @@ class Accountant(
         }
     }
 
-    fun saveProductCardToFile(productCard: ProductCard) {
+    private fun saveProductCardToFile(productCard: ProductCard) {
         productFile.appendText("${productCard.name}%${productCard.brand}%${productCard.price}%")
         when (productCard) {
             is FoodCard -> {
@@ -172,6 +173,7 @@ class Accountant(
             work()
             return cards
         }
+        if (!productFile.exists()) productFile.createNewFile()
         val allText = productFile.readText().trim()
         val lines = allText.split("\n")
 
@@ -206,7 +208,7 @@ class Accountant(
     }
 
 
-    fun showAllItems() {
+    private fun showAllItems() {
         val productCards = getAllProducts()
         for (card in productCards){
             card.printInfo()

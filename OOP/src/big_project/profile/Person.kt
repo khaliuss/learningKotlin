@@ -2,10 +2,10 @@ package big_project.profile
 
 class Person {
 
-    val name: String
-    val age: Int
-    val height: Int
-    val weight: Int
+    private val name: String
+    private val age: Int
+    private val height: Int
+    private val weight: Int
 
     fun sayHello() {
         println("Hello! My name is $name!")

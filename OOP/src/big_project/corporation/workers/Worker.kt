@@ -13,7 +13,7 @@ open class Worker(
         println("I'm working now...")
     }
 
-    open fun personInf(){
+    fun personInf(){
         println("id=$id, name='$name', age=$age, position=$position")
     }
 }
