@@ -1,24 +1,37 @@
 package big_project.profile
 
-class Person {
+import practice.files.file
 
-    private val name: String
-    private val age: Int
-    private val height: Int
+class Person(
+    private val name: String,
+    private val height: Int,
     private val weight: Int
+) {
+
+    var age: Int = 0
+        set(value) {
+            if (value > field) {
+                field = value
+            } else {
+                println("Age can't decrease")
+            }
+        }
+        get() {
+            println("It is impolite to ask about someone's age")
+            return field
+        }
+
+    fun askAboutAge(): Int{
+        return age
+    }
 
     fun sayHello() {
         println("Hello! My name is $name!")
     }
 
-    constructor(name: String, age: Int, height: Int, weight: Int) {
-        this.name = name
-        this.age = age
-        this.height = height
-        this.weight = weight
-    }
+
     fun printInfo() {
-        println("Name: $name Age: Sage Height: $height Weight: $weight")
+        println("Name: $name Age:$age Sage Height: $height Weight: $weight")
     }
 
     fun run() {

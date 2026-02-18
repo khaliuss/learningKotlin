@@ -9,7 +9,10 @@ class ShoeCard(
     val size: Float
 ) : ProductCard(name, brand, price, ProductType.SHOE) {
 
-    override fun printInfo() {
-        print("Name: ${this.name} Brand: ${this.brand} Price: ${this.price} Product type: ${productType.title} Size: $size\n")
+
+    override fun toString(): String {
+        return "Name='$name', Brand='$brand', Price=$price, ProductType=${productType.title}, Size=$size\n"
     }
+
+
 }

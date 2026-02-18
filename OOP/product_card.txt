@@ -1,0 +1,3 @@
+Chips%Lays%120%312%FOOD
+Hair Drayer%Dyson%20000%2000%APPLIANCE
+Sneakers%Nike%2000%43.2%SHOE

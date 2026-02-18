@@ -1,5 +1,6 @@
 package big_project.corporation
 
+import big_project.corporation.shop.FoodCard
 import big_project.corporation.workers.Accountant
 import big_project.corporation.workers.Assistant
 import big_project.corporation.workers.Cleaner
@@ -12,15 +13,8 @@ fun main() {
 
     val accountant = Accountant(  0, "Christian", 30)
     accountant.work()
-    val employees: MutableList<Worker> = accountant.getAllEmployees()
-    for (employee in employees) {
-        if (employee is Cleaner) {
-            employee.clean()
-        }
-        if (employee is Supplier) {
-            employee.buy()
-        }
-    }
 
+    val foodCard = FoodCard("Chips","Pojo",20,123)
+    println(foodCard.toString())
 
 }
