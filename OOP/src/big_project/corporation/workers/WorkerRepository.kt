@@ -6,7 +6,10 @@ import java.io.File
 object WorkerRepository {
 
     private val employeeFile = File("employees.txt")
-    val workers = getAllEmployees()
+    private val _workers = getAllEmployees()
+    val workers
+        get()=_workers.toList()
+
 
 
     fun getAllEmployees(): MutableList<Worker> {
@@ -41,7 +44,7 @@ object WorkerRepository {
     }
 
     fun changeSalary(id: Int, salary: Int) {
-        for (worker in workers) {
+        for (worker in _workers) {
             if (worker.id == id) {
                 worker.salary = salary
             }
@@ -49,21 +52,21 @@ object WorkerRepository {
     }
 
     fun registerNewEmployee(employee: Worker) {
-        workers.add(employee)
+        _workers.add(employee)
     }
 
     fun saveChanges() {
         val workersString = StringBuilder()
-        for (worker in workers){
+        for (worker in _workers){
             workersString.append("${worker.id}%${worker.name}%${worker.age}%${worker.salary}%${worker.position}\n")
         }
         employeeFile.writeText(workersString.toString())
     }
 
     fun fireEmployee(id: Int) {
-        for (worker in workers) {
+        for (worker in _workers) {
             if (worker.id == id) {
-                workers.remove(worker)
+                _workers.remove(worker)
                 break
             }
         }

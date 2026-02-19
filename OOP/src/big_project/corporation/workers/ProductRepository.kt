@@ -10,7 +10,9 @@ import java.io.File
 object ProductRepository {
 
     private val productFile = File("product_card.txt")
-    val products = getAllProducts()
+    private val _products = getAllProducts()
+    val products
+        get() = _products.toList()
 
 
     private fun getAllProducts(): MutableList<ProductCard> {
@@ -50,12 +52,12 @@ object ProductRepository {
     }
 
     fun saveProduct(productCard: ProductCard){
-        products.add(productCard)
+        _products.add(productCard)
     }
 
     fun saveChanges() {
         val allInOneStr = StringBuilder()
-        for (product in products){
+        for (product in _products){
             allInOneStr.append("${product.name}%${product.brand}%${product.price}%")
             when (product) {
                 is FoodCard -> {
@@ -77,9 +79,9 @@ object ProductRepository {
 
 
     fun removeProductCard(name:String) {
-        for (product in products){
+        for (product in _products){
             if (product.name == name){
-                products.remove(product)
+                _products.remove(product)
             }
         }
     }

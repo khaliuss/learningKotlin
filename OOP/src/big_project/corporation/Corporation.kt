@@ -8,13 +8,17 @@ import big_project.corporation.workers.Consultant
 import big_project.corporation.workers.Director
 import big_project.corporation.workers.Supplier
 import big_project.corporation.workers.Worker
+import big_project.corporation.workers.WorkerRepository
 
 fun main() {
 
-    val accountant = Accountant(  0, "Christian", 30)
-    accountant.work()
+    val workers = WorkerRepository.workers;
 
-    val foodCard = FoodCard("Chips","Pojo",20,123)
-    println(foodCard.toString())
+    for (worker in workers){
+        worker.work()
+    }
+
+
+
 
 }
