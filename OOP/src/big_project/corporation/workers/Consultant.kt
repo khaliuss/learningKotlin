@@ -6,11 +6,16 @@ import kotlin.random.Random
 class Consultant(
     id: Int,
     name: String,
-    age: Int=0
-) : Worker(id,name,age,WorkerPosition.CONSULTANT), Cleaner {
+    age: Int=0,
+    salary:Int
+) : Worker(id,name,age,salary,WorkerPosition.CONSULTANT), Cleaner {
 
     override fun work() {
         serveCustomers()
+    }
+
+    override fun copy(salary: Int,age: Int): Consultant {
+        return Consultant(id,name,age,salary)
     }
 
     fun serveCustomers(): Int {

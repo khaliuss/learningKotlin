@@ -31,12 +31,11 @@ object WorkerRepository {
             val position = WorkerPosition.valueOf(type)
 
             val worker = when (position) {
-                WorkerPosition.DIRECTOR -> Director(id, name, age)
-                WorkerPosition.ACCOUNTANT -> Accountant(id, name, age)
-                WorkerPosition.ASSISTANT -> Assistant(id, name, age)
-                WorkerPosition.CONSULTANT -> Consultant(id, name, age)
+                WorkerPosition.DIRECTOR -> Director(id, name, age,salary)
+                WorkerPosition.ACCOUNTANT -> Accountant(id, name, age,salary)
+                WorkerPosition.ASSISTANT -> Assistant(id, name, age,salary)
+                WorkerPosition.CONSULTANT -> Consultant(id, name, age,salary)
             }
-            worker.salary = salary
             employees.add(worker)
         }
 
@@ -44,9 +43,21 @@ object WorkerRepository {
     }
 
     fun changeSalary(id: Int, salary: Int) {
-        for (worker in _workers) {
+        for ((index,worker) in _workers.withIndex()) {
             if (worker.id == id) {
-                worker.salary = salary
+                if (salary < worker.salary) return
+                val newWorker = worker.copy(salary = salary)
+                _workers[index] = newWorker
+            }
+        }
+    }
+
+    fun changeAge(id: Int, age: Int) {
+        for ((index,worker) in _workers.withIndex()) {
+            if (worker.id == id) {
+                if (age < worker.age) return
+                val newWorker = worker.copy(age = age)
+                _workers[index] = newWorker
             }
         }
     }

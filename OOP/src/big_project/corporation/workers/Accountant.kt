@@ -11,11 +11,13 @@ import big_project.corporation.shop.ShoeCard
 class Accountant(
     id: Int,
     name: String,
-    age: Int = 0
-) : Worker(id, name, age, WorkerPosition.ACCOUNTANT), Cleaner, Supplier {
+    age: Int = 0,
+    salary:Int
+) : Worker(id, name, age, salary,WorkerPosition.ACCOUNTANT), Cleaner, Supplier {
 
     private val repositoryWorker = WorkerRepository
     private val repositoryProduct = ProductRepository
+
 
 
     override fun work() {
@@ -40,9 +42,14 @@ class Accountant(
                 OperationCode.FIRE_AN_EMPLOYEE -> fireEmployee()
                 OperationCode.SHOW_ALL_EMPLOYEES -> showAllEmployees()
                 OperationCode.CHANGE_SALARY -> changeSalary()
+                OperationCode.CHANGE_AGE -> changeAge()
             }
         }
 
+    }
+
+    override fun copy(salary: Int,age: Int): Accountant {
+        return Accountant(id,name,age,salary)
     }
 
     private fun changeSalary() {
@@ -51,6 +58,14 @@ class Accountant(
         print("Enter new salary: ")
         val salary: Int = readln().toInt()
         repositoryWorker.changeSalary(id, salary)
+    }
+
+    private fun changeAge(){
+        print("Enter employee's id to change age: ")
+        val id: Int = readln().toInt()
+        print("Enter new age: ")
+        val age: Int = readln().toInt()
+        repositoryWorker.changeAge(id,age)
     }
 
     private fun showAllEmployees() {
@@ -91,12 +106,11 @@ class Accountant(
         val salary = readln().toInt()
 
         val employee = when (workerType) {
-            WorkerPosition.DIRECTOR -> Director(id, name, age)
-            WorkerPosition.ACCOUNTANT -> Accountant(id, name, age)
-            WorkerPosition.ASSISTANT -> Assistant(id, name, age)
-            WorkerPosition.CONSULTANT -> Consultant(id, name, age)
+            WorkerPosition.DIRECTOR -> Director(id, name, age,salary)
+            WorkerPosition.ACCOUNTANT -> Accountant(id, name, age,salary)
+            WorkerPosition.ASSISTANT -> Assistant(id, name, age,salary)
+            WorkerPosition.CONSULTANT -> Consultant(id, name, age,salary)
         }
-        employee.salary = salary
         repositoryWorker.registerNewEmployee(employee)
     }
 

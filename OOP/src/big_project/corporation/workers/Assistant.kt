@@ -5,11 +5,16 @@ import big_project.corporation.enums.WorkerPosition
 class Assistant(
     id: Int,
     name: String,
-    age: Int = 0
-) : Worker(id, name, age, WorkerPosition.ASSISTANT), Cleaner, Supplier {
+    age: Int = 0,
+    salary:Int
+) : Worker(id, name, age, salary,WorkerPosition.ASSISTANT), Cleaner, Supplier {
 
     override fun work() {
         println("I'm answering the phone now....")
+    }
+
+    override fun copy(salary: Int,age: Int): Assistant {
+        return Assistant(id,name,age,salary)
     }
 
     fun bringCoffee(drinkName: String = "Cappuccino", count: Int = 1): String {
