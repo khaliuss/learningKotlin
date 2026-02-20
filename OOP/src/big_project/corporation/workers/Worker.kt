@@ -23,5 +23,10 @@ abstract class Worker(
         return "id=$id, name='$name', age=$age, position=${position.title}, salary=$salary\n"
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is Worker) return false
+
+        return id == other.id && name == other.name && age == other. age && salary == other.salary && position == other.position
+    }
 
 }
