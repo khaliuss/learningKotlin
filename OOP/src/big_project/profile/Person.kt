@@ -3,24 +3,24 @@ package big_project.profile
 import practice.files.file
 
 class Person(
-    private val name: String,
+    val name: String,
     var secondName: String,
-    private val height: Int,
-    private val weight: Int
+    val height: Int,
+    var age: Int = 0,
+    val weight: Int
 ) {
 
-    var age: Int = 0
-        set(value) {
-            if (value > field) {
-                field = value
-            } else {
-                println("Age can't decrease")
-            }
+
+    fun copy(name: String,secondName: String,height: Int,age: Int,weight: Int): Person{
+
+        if (age < this.age) {
+            println("Age can't be decrease")
+            return Person(name,secondName,height,this.age,weight)
         }
-        get() {
-            println("It is impolite to ask about someone's age")
-            return field
-        }
+
+        return Person(name,secondName,height,age,weight)
+    }
+
 
     val fullName: String
         get() = "$name $secondName"
@@ -40,5 +40,22 @@ class Person(
         }
         println()
     }
+
+    override fun equals(other: Any?): Boolean {
+
+        if (other !is Person) return false
+
+        return name == other.name && secondName == other.secondName && height == other.height && age == other. age && weight == other.weight
+    }
+
+    override fun hashCode(): Int {
+        var result = height
+        result = 31 * result + age
+        result = 31 * result + weight
+        result = 31 * result + name.hashCode()
+        result = 31 * result + secondName.hashCode()
+        return result
+    }
+
 
 }

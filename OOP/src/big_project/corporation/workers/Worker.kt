@@ -29,4 +29,13 @@ abstract class Worker(
         return id == other.id && name == other.name && age == other. age && salary == other.salary && position == other.position
     }
 
+    override fun hashCode(): Int {
+        var result = id
+        result = 31 * result + age
+        result = 31 * result + salary
+        result = 31 * result + name.hashCode()
+        result = 31 * result + position.hashCode()
+        return result
+    }
+
 }

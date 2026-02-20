@@ -62,8 +62,11 @@ object WorkerRepository {
         }
     }
 
-    fun registerNewEmployee(employee: Worker) {
-        _workers.add(employee)
+    fun registerNewEmployee(newWorker: Worker) {
+        for (worker in _workers){
+            if (newWorker == worker) return
+        }
+        _workers.add(newWorker)
     }
 
     fun saveChanges() {
