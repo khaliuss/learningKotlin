@@ -6,19 +6,25 @@ class Person(
     val name: String,
     var secondName: String,
     val height: Int,
-    var age: Int = 0,
+    val age: Int,
     val weight: Int
 ) {
 
 
-    fun copy(name: String,secondName: String,height: Int,age: Int,weight: Int): Person{
+    fun copy(
+        name: String = this.name,
+        secondName: String = this.secondName,
+        height: Int = this.height,
+        age: Int = this.age,
+        weight: Int = this.weight
+    ): Person {
 
         if (age < this.age) {
             println("Age can't be decrease")
-            return Person(name,secondName,height,this.age,weight)
+            return Person(name, secondName, height, this.age, weight)
         }
 
-        return Person(name,secondName,height,age,weight)
+        return Person(name, secondName, height, age, weight)
     }
 
 
@@ -41,11 +47,13 @@ class Person(
         println()
     }
 
+
+
     override fun equals(other: Any?): Boolean {
 
         if (other !is Person) return false
 
-        return name == other.name && secondName == other.secondName && height == other.height && age == other. age && weight == other.weight
+        return name == other.name && secondName == other.secondName && height == other.height && age == other.age && weight == other.weight
     }
 
     override fun hashCode(): Int {
@@ -55,6 +63,10 @@ class Person(
         result = 31 * result + name.hashCode()
         result = 31 * result + secondName.hashCode()
         return result
+    }
+
+    override fun toString(): String {
+        return "Person(name='$name', secondName='$secondName', height=$height, age=$age, weight=$weight, fullName='$fullName')"
     }
 
 
