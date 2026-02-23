@@ -15,8 +15,8 @@ object ProductRepository {
         get() = _products.toList()
 
 
-    private fun getAllProducts(): MutableList<ProductCard> {
-        val cards = mutableListOf<ProductCard>()
+    private fun getAllProducts(): MutableSet<ProductCard> {
+        val cards = mutableSetOf<ProductCard>()
         if (!productFile.exists()) productFile.createNewFile()
         val allText = productFile.readText().trim()
         val lines = allText.split("\n")

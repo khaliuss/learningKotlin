@@ -18,6 +18,15 @@ data class Accountant(
     private val repositoryWorker = WorkerRepository
     private val repositoryProduct = ProductRepository
 
+    override fun copy(
+        id: Int,
+        name: String,
+        age: Int,
+        salary: Int,
+        position: WorkerPosition
+    ): Worker {
+        return copy(id = id, name = name, age = age, salary = salary)
+    }
 
 
     override fun work() {
@@ -48,9 +57,7 @@ data class Accountant(
 
     }
 
-    override fun copy(salary: Int,age: Int): Accountant {
-        return Accountant(id,name,age,salary)
-    }
+
 
     private fun changeSalary() {
         print("Enter employee's id to change salary: ")

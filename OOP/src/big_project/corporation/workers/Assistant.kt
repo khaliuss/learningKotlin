@@ -13,8 +13,14 @@ data class Assistant(
         println("I'm answering the phone now....")
     }
 
-    override fun copy(salary: Int,age: Int): Assistant {
-        return Assistant(id,name,age,salary)
+    override fun copy(
+        id: Int,
+        name: String,
+        age: Int,
+        salary: Int,
+        position: WorkerPosition
+    ): Worker {
+        return copy(id = id, name = name, age = age, salary = salary)
     }
 
     fun bringCoffee(drinkName: String = "Cappuccino", count: Int = 1): String {

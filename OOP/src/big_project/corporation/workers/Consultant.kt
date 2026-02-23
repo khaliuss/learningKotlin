@@ -14,8 +14,14 @@ data class Consultant(
         serveCustomers()
     }
 
-    override fun copy(salary: Int,age: Int): Consultant {
-        return Consultant(id,name,age,salary)
+    override fun copy(
+        id: Int,
+        name: String,
+        age: Int,
+        salary: Int,
+        position: WorkerPosition
+    ): Worker {
+        return copy(id = id, name = name, age = age, salary = salary)
     }
 
     fun serveCustomers(): Int {
