@@ -1,26 +1,12 @@
 package big_project.exceptions
 
+import big_project.corporation.workers.WorkerRepository
+
 fun main() {
+    val director = WorkerRepository.findDirector() ?: throwDirectorIsRequired()
+    director.printInfo()
+}
 
-//    try {
-//        val a :Int = readln().toInt()
-//        val b:Int = readln().toInt()
-//        println(a / b)
-//
-//    }catch (exception:ArithmeticException){
-//        println("You can't divide by zero")
-//    }catch (exception: NumberFormatException){
-//        println("Wrong input")
-//    }catch (exception: Throwable){
-//        println("Common error")
-//    }
-
-//    val list = arrayListOf<Int>(1,2,3)
-//    list[5]
-
-
-    println("After try-catch")
-
-
-
+fun throwDirectorIsRequired(): Nothing {
+    throw IllegalStateException("Director is required for this program. Please add it to the file workers.txt")
 }
