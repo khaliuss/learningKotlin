@@ -12,8 +12,8 @@ object WorkerRepository {
 
 
 
-    fun getAllEmployees(): MutableList<Worker> {
-        val employees = mutableListOf<Worker>()
+    fun getAllEmployees(): MutableSet<Worker> {
+        val employees = mutableSetOf<Worker>()
 
         if (!employeeFile.exists()) employeeFile.createNewFile()
         val allText = employeeFile.readText().trim()
@@ -43,29 +43,30 @@ object WorkerRepository {
     }
 
     fun changeSalary(id: Int, salary: Int) {
-        for ((index,worker) in _workers.withIndex()) {
+        for (worker in _workers) {
             if (worker.id == id) {
                 if (salary < worker.salary) return
                 val newWorker = worker.copy(salary = salary)
-                _workers[index] = newWorker
+                _workers.remove(worker)
+                _workers.add(newWorker)
+                break
             }
         }
     }
 
     fun changeAge(id: Int, age: Int) {
-        for ((index,worker) in _workers.withIndex()) {
+        for (worker in _workers) {
             if (worker.id == id) {
                 if (age < worker.age) return
                 val newWorker = worker.copy(age = age)
-                _workers[index] = newWorker
+                _workers.remove(worker)
+                _workers.add(newWorker)
+                break
             }
         }
     }
 
     fun registerNewEmployee(newWorker: Worker) {
-        for (worker in _workers){
-            if (newWorker == worker) return
-        }
         _workers.add(newWorker)
     }
 

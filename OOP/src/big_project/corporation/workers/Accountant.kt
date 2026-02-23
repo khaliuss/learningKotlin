@@ -8,11 +8,11 @@ import big_project.corporation.shop.FoodCard
 import big_project.corporation.shop.ProductCard
 import big_project.corporation.shop.ShoeCard
 
-class Accountant(
-    id: Int,
-    name: String,
-    age: Int = 0,
-    salary:Int
+data class Accountant(
+    override val id: Int,
+    override val name: String,
+    override val age: Int = 0,
+    override val salary:Int
 ) : Worker(id, name, age, salary,WorkerPosition.ACCOUNTANT), Cleaner, Supplier {
 
     private val repositoryWorker = WorkerRepository

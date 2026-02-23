@@ -2,11 +2,11 @@ package big_project.corporation.workers
 
 import big_project.corporation.enums.WorkerPosition
 
-class Director(
-    id: Int,
-    name: String,
-    age: Int,
-    salary:Int
+data class Director(
+    override val id: Int,
+    override val name: String,
+    override val age: Int,
+    override val salary:Int
 ): Worker(id,name,age,salary,WorkerPosition.DIRECTOR),Supplier{
 
     override fun work() {

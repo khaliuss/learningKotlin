@@ -10,6 +10,6 @@ abstract class ProductCard(
 ) {
 
     fun printInfo(){
-        print(this)
+        println(this)
     }
 }

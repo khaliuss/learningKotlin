@@ -2,11 +2,11 @@ package big_project.corporation.workers
 
 import big_project.corporation.enums.WorkerPosition
 
-class Assistant(
-    id: Int,
-    name: String,
-    age: Int = 0,
-    salary:Int
+data class Assistant(
+    override val id: Int,
+    override val name: String,
+    override val age: Int = 0,
+    override val salary:Int
 ) : Worker(id, name, age, salary,WorkerPosition.ASSISTANT), Cleaner, Supplier {
 
     override fun work() {
