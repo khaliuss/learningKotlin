@@ -12,4 +12,10 @@ fun main() {
         director?.takeCoffee(assistant,"Cappuccino")
     }
 
+    val directorSalary = director?.salary ?: 0
+    val assistantSalary = assistant?.salary ?: 0
+
+    val sum = directorSalary + assistantSalary
+
+
 }
