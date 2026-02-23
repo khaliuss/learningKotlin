@@ -78,7 +78,7 @@ data class Accountant(
     private fun showAllEmployees() {
         val employees = repositoryWorker.workers
         for (employee in employees) {
-            employee.personInf()
+            employee.printInfo()
         }
     }
 

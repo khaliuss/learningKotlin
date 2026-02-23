@@ -6,8 +6,8 @@ data class Assistant(
     override val id: Int,
     override val name: String,
     override val age: Int = 0,
-    override val salary:Int
-) : Worker(id, name, age, salary,WorkerPosition.ASSISTANT), Cleaner, Supplier {
+    override val salary: Int
+) : Worker(id, name, age, salary, WorkerPosition.ASSISTANT), Cleaner, Supplier {
 
     override fun work() {
         println("I'm answering the phone now....")

@@ -21,7 +21,7 @@ abstract class Worker(
 
     abstract fun work()
 
-    fun personInf() {
+    fun printInfo() {
         println(this)
     }
 

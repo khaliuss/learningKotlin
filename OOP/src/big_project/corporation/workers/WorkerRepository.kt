@@ -8,9 +8,26 @@ object WorkerRepository {
     private val employeeFile = File("employees.txt")
     private val _workers = getAllEmployees()
     val workers
-        get()=_workers.toList()
+        get() = _workers.toList()
 
 
+    fun findAssistant(): Assistant? {
+        for (worker in _workers) {
+            if (worker is Assistant) {
+                return worker
+            }
+        }
+        return null
+    }
+
+    fun findDirector(): Director? {
+        for (worker in _workers) {
+            if (worker is Director) {
+                return worker
+            }
+        }
+        return null
+    }
 
     fun getAllEmployees(): MutableSet<Worker> {
         val employees = mutableSetOf<Worker>()
@@ -31,10 +48,10 @@ object WorkerRepository {
             val position = WorkerPosition.valueOf(type)
 
             val worker = when (position) {
-                WorkerPosition.DIRECTOR -> Director(id, name, age,salary)
-                WorkerPosition.ACCOUNTANT -> Accountant(id, name, age,salary)
-                WorkerPosition.ASSISTANT -> Assistant(id, name, age,salary)
-                WorkerPosition.CONSULTANT -> Consultant(id, name, age,salary)
+                WorkerPosition.DIRECTOR -> Director(id, name, age, salary)
+                WorkerPosition.ACCOUNTANT -> Accountant(id, name, age, salary)
+                WorkerPosition.ASSISTANT -> Assistant(id, name, age, salary)
+                WorkerPosition.CONSULTANT -> Consultant(id, name, age, salary)
             }
             employees.add(worker)
         }
@@ -72,7 +89,7 @@ object WorkerRepository {
 
     fun saveChanges() {
         val workersString = StringBuilder()
-        for (worker in _workers){
+        for (worker in _workers) {
             workersString.append("${worker.id}%${worker.name}%${worker.age}%${worker.salary}%${worker.position}\n")
         }
         employeeFile.writeText(workersString.toString())
