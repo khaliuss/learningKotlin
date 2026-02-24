@@ -1,7 +1,5 @@
 package org.example.extentions
 
-import org.example.products.ProductCard
-
 inline fun <T,R> Iterable<T>.transform(operation:(T)->R): List<R>{
     val result= mutableListOf<R>()
     for (item in this){
@@ -18,4 +16,10 @@ inline fun <T> Iterable<T>.filter(isSuitable: (T) -> Boolean): List<T> {
         }
     }
     return filteredProductCards
+}
+
+inline fun <T> Iterable<T>.myForEach(operation:(T)-> Unit){
+    for (it in this){
+        operation(it)
+    }
 }
