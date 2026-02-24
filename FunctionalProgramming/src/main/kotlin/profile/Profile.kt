@@ -1,36 +1,35 @@
 package org.example.profile
 
+import org.example.test.isPositive
+
 fun main() {
 
 
     val persons = ProfilesRepository.profiles
+        .myFilter { it.age > 25 }
+        .myFilter { it.firstName.startsWith("A") }
+        .myFilter { it.gender == Gender.MALE }
+        .myFilter { it.age < 30 }
+        .transform { it.copy(age = it.age + 1) }
 
-    var filtered = filter(persons) { it.age > 25 }
-    filtered = filter(filtered) { it.firstName.startsWith("A") }
-    filtered = filter(filtered) { it.gender == Gender.MALE }
 
-//    val names = transform(filtered){it.firstName}
-//    val lastNames = transform(filtered){it.lastName}
-//    val fullNames = transform(filtered){"${it.firstName} ${it.lastName}"}
-    val transformed = transform(filtered){it.copy(age = it.age+1)}
-
-    for (person in transformed) {
+    for (person in persons) {
         println(person)
     }
 
 }
 
-fun <T> transform(profiles: List<Person>,operation:(Person) -> T): List<T>{
+fun <T> List<Person>.transform(operation: (Person) -> T): List<T> {
     val result = mutableListOf<T>()
-    for (person in profiles){
+    for (person in this) {
         result.add(operation(person))
     }
     return result
 }
 
-fun filter(persons: List<Person>, isSuitable: (Person) -> Boolean): List<Person> {
+fun List<Person>.myFilter(isSuitable: (Person) -> Boolean): List<Person> {
     val newPersons = mutableListOf<Person>()
-    for (person in persons) {
+    for (person in this) {
         if (isSuitable(person)) {
             newPersons.add(person)
         }

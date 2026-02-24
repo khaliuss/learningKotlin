@@ -6,34 +6,28 @@ import products.ProductBrandA
 fun main() {
 
     val productCards = ProductsRepository.productCards
+        .filter{it.category == "Toys"}
+        .transform {it.copy(price = it.price*2)  }
+        .transform { "${it.id} - ${it.name} - ${it.price}" }
 
-//    var filtered = filter(productCards){it.rating > 4}
-//    filtered = filter(filtered){it.price > 500}
-//    filtered = filter(filtered){it.brand > Brand.BRAND_A }
 
-    val filtered = filter(productCards) { it.category == "Toys" }
-
-    val transformed = transform(filtered){it.copy(price = it.price*2)}
-
-    val res = transform(transformed){"${it.id} - ${it.name} - ${it.price}"}
-
-    for (productCard in res) {
+    for (productCard in productCards) {
         println(productCard)
     }
 
 }
 
-fun <T> transform(products: List<ProductCard>,operation:(ProductCard)->T): List<T>{
+fun <T> List<ProductCard>.transform(operation:(ProductCard)->T): List<T>{
     val result= mutableListOf<T>()
-    for (product in products){
+    for (product in this){
         result.add(operation(product))
     }
     return result
 }
 
-fun filter(productCards: List<ProductCard>, isSuitable: (ProductCard) -> Boolean): List<ProductCard> {
+fun List<ProductCard>.filter(isSuitable: (ProductCard) -> Boolean): List<ProductCard> {
     val filteredProductCards = mutableListOf<ProductCard>()
-    for (product in productCards) {
+    for (product in this) {
         if (isSuitable(product)) {
             filteredProductCards.add(product)
         }
