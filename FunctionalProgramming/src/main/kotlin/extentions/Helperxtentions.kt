@@ -23,3 +23,13 @@ inline fun <T> Iterable<T>.myForEach(operation:(T)-> Unit){
         operation(it)
     }
 }
+
+inline fun <T, R> T.myLet(block: (T) -> R): R{
+    return block(this)
+}
+
+
+inline fun<T>  T.myAlso(block : (T)-> Unit):T{
+    block(this)
+    return this
+}
