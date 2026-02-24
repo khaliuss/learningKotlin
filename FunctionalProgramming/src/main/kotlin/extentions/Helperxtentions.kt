@@ -2,19 +2,19 @@ package org.example.extentions
 
 import org.example.products.ProductCard
 
-fun <T,R> Iterable<T>.transform(operation:(T)->R): List<R>{
+inline fun <T,R> Iterable<T>.transform(operation:(T)->R): List<R>{
     val result= mutableListOf<R>()
-    for (product in this){
-        result.add(operation(product))
+    for (item in this){
+        result.add(operation(item))
     }
     return result
 }
 
-fun <T> Iterable<T>.filter(isSuitable: (T) -> Boolean): List<T> {
+inline fun <T> Iterable<T>.filter(isSuitable: (T) -> Boolean): List<T> {
     val filteredProductCards = mutableListOf<T>()
-    for (product in this) {
-        if (isSuitable(product)) {
-            filteredProductCards.add(product)
+    for (item in this) {
+        if (isSuitable(item)) {
+            filteredProductCards.add(item)
         }
     }
     return filteredProductCards

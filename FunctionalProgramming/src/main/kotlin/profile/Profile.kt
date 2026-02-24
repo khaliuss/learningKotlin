@@ -13,6 +13,7 @@ fun main() {
         .filter { it.age < 30 }
         .map { it.copy(age = it.age + 1) }
 
+    myFilter(persons, { person -> person.age==23 })
 
     for (person in persons) {
         println(person)
@@ -21,14 +22,14 @@ fun main() {
 }
 
 
-//fun List<Person>.myFilter(isSuitable: (Person) -> Boolean): List<Person> {
-//    val newPersons = mutableListOf<Person>()
-//    for (person in this) {
-//        if (isSuitable(person)) {
-//            newPersons.add(person)
-//        }
-//    }
-//    return newPersons
-//}
+fun myFilter(persons :List<Person>,isSuitable: (Person) -> Boolean): List<Person> {
+    val newPersons = mutableListOf<Person>()
+    for (person in persons) {
+        if (isSuitable(person)) {
+            newPersons.add(person)
+        }
+    }
+    return newPersons
+}
 
 
