@@ -1,8 +1,5 @@
 package org.example.profile
 
-import kotlinx.serialization.json.Json
-import java.io.File
-
 fun main() {
 
 
@@ -12,12 +9,23 @@ fun main() {
     filtered = filter(filtered) { it.firstName.startsWith("A") }
     filtered = filter(filtered) { it.gender == Gender.MALE }
 
+//    val names = transform(filtered){it.firstName}
+//    val lastNames = transform(filtered){it.lastName}
+//    val fullNames = transform(filtered){"${it.firstName} ${it.lastName}"}
+    val transformed = transform(filtered){it.copy(age = it.age+1)}
 
-
-    for (person in filtered) {
+    for (person in transformed) {
         println(person)
     }
 
+}
+
+fun <T> transform(profiles: List<Person>,operation:(Person) -> T): List<T>{
+    val result = mutableListOf<T>()
+    for (person in profiles){
+        result.add(operation(person))
+    }
+    return result
 }
 
 fun filter(persons: List<Person>, isSuitable: (Person) -> Boolean): List<Person> {
@@ -29,15 +37,5 @@ fun filter(persons: List<Person>, isSuitable: (Person) -> Boolean): List<Person>
     }
     return newPersons
 }
-
-//fun filter(persons: List<Person>,condition: Condition): List<Person> {
-//    val newPersons = mutableListOf<Person>()
-//    for (person in persons) {
-//        if (condition.isSuitable(person)){
-//            newPersons.add(person)
-//        }
-//    }
-//    return newPersons
-//}
 
 
