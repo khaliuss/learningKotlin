@@ -6,34 +6,34 @@ import java.io.File
 var age: Int? = 20
 
 fun main() {
-
-    val handbook = mutableMapOf<String, String>()
-
-    handbook["Andrew"] = "0505812126"
-    handbook["Jimmy"] = "050523435"
-    handbook.put("Caren", "050232345")
-
-    print("Please put another one name: ")
-    val name = readln().trim()
-    print("Please put another one phone number: ")
-    val phone = readln().trim()
-
-    handbook.put(name, phone)
-
-    takePhoneNumber(handbook)
+    exampleWith()
 
 }
 
-fun takePhoneNumber(handbook: Map<String, String>) {
+fun exampleWith() {
+    with(mutableListOf<Int>()) {
+        while (true) {
+            print("Enter number or 0 to exit: ")
+            val number: Int = readln().toInt().takeIf { it != 0 } ?: break
+            add(number)
+        }
+        println("Max: ${max()}")
+        println("Min: ${min()}")
+        this
+    }.forEach {
+        println(it)
+    }
+}
 
-    while (true) {
-        print("To find a number please put name or 0 to exit: ")
-        val name = readln()
-        if (name == "0") break
-        handbook[name]?.let {
-            println("tel: $it")
-            break
-        } ?: print("not found")
+fun exampleApply() {
+    mutableListOf<Int>().apply {
+        while (true) {
+            print("Enter number or 0 to exit: ")
+            val number: Int = readln().toInt().takeIf { it != 0 } ?: break
+            add(number)
+        }
+    }.forEach {
+        println(it)
     }
 }
 
