@@ -7,41 +7,34 @@ var age: Int? = 20
 
 fun main() {
 
-//                                   не изменяемая коллекция
-//
-//    val dictionary: Map<String, String> = mapOf(
-//
-//        "hello" to "bonjour",                       //  we use ether to or ether Pair
-//        Pair("thank you", "merci")  //  like here
-//
-//    )
+    val handbook = mutableMapOf<String, String>()
 
-    val dictionary = mutableMapOf<String, String>()
+    handbook["Andrew"] = "0505812126"
+    handbook["Jimmy"] = "050523435"
+    handbook.put("Caren", "050232345")
 
-//    dictionary.put("Hello","Bonjour")
-    dictionary["Hello"] = "Bonjour"
+    print("Please put another one name: ")
+    val name = readln().trim()
+    print("Please put another one phone number: ")
+    val phone = readln().trim()
 
-//    for (entry in dictionary){
-//        println(entry.value)
-//    }
+    handbook.put(name, phone)
 
-    val keys = dictionary.keys
+    takePhoneNumber(handbook)
 
-    for (key in keys){
-        println(key)
+}
+
+fun takePhoneNumber(handbook: Map<String, String>) {
+
+    while (true) {
+        print("To find a number please put name or 0 to exit: ")
+        val name = readln()
+        if (name == "0") break
+        handbook[name]?.let {
+            println("tel: $it")
+            break
+        } ?: print("not found")
     }
-
-    val values = dictionary.values
-
-    for (value in values){
-        println(value)
-    }
-
-
-
-
-
-
 }
 
 
