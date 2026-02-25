@@ -32,9 +32,7 @@ fun exampleApply() {
             val number: Int = readln().toInt().takeIf { it != 0 } ?: break
             add(number)
         }
-    }.forEach {
-        println(it)
-    }
+    }.forEach(::println)
 }
 
 

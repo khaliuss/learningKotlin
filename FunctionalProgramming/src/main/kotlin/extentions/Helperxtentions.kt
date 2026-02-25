@@ -42,3 +42,7 @@ inline fun<T>  T.myApply(block : T.()-> Unit):T{
 inline fun<T,R>  myWith(element:T, block : T.()-> R):R{
     return element.block()
 }
+
+inline fun<T,R>  T.myRun(block : T.()-> R):R{
+    return block()
+}
