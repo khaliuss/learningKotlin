@@ -7,26 +7,43 @@ var age: Int? = 20
 
 fun main() {
 
-    age?.let {
-        if (it >= 18) {
-            "You are an adult"
-        } else {
-            "You will be an adult in ${18 - it} years"
-        }
-    }?.let {
-        println(it)
+//                                   не изменяемая коллекция
+//
+//    val dictionary: Map<String, String> = mapOf(
+//
+//        "hello" to "bonjour",                       //  we use ether to or ether Pair
+//        Pair("thank you", "merci")  //  like here
+//
+//    )
+
+    val dictionary = mutableMapOf<String, String>()
+
+//    dictionary.put("Hello","Bonjour")
+    dictionary["Hello"] = "Bonjour"
+
+//    for (entry in dictionary){
+//        println(entry.value)
+//    }
+
+    val keys = dictionary.keys
+
+    for (key in keys){
+        println(key)
     }
 
-    age?.myLet {
-        "From my let $it"
-    }?.myLet {
-        println(it)
+    val values = dictionary.values
+
+    for (value in values){
+        println(value)
     }
+
+
+
+
 
 
 }
 
-inline fun<T,R> T.myLet(block:(T)->R):R{
-    return block(this)
-}
+
+
 
