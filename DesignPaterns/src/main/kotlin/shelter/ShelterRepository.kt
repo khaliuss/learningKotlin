@@ -20,7 +20,9 @@ class ShelterRepository private constructor(){
 
     companion object{
 
-        private val instance: ShelterRepository = ShelterRepository()
+        private val instance: ShelterRepository by lazy {
+            ShelterRepository()
+        }
 
         fun getInstance(pass: String): ShelterRepository{
             val currentPass = File("password.txt").readText().trim()
