@@ -1,6 +1,7 @@
 package shelter
 
 import kotlinx.serialization.json.Json
+import users.UserRepository
 import java.io.File
 import java.lang.IllegalArgumentException
 
@@ -19,14 +20,11 @@ class ShelterRepository private constructor(){
 
     companion object{
 
-        private lateinit var instance: ShelterRepository
+        private val instance: ShelterRepository = ShelterRepository()
 
         fun getInstance(pass: String): ShelterRepository{
             val currentPass = File("password.txt").readText().trim()
             if (currentPass != pass) throw IllegalArgumentException("Wrong password")
-            if (!::instance.isInitialized){
-                instance = ShelterRepository()
-            }
             return instance
         }
 
