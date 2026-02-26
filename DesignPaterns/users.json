@@ -1,0 +1,62 @@
+[
+  {
+    "user_id": 1,
+    "first_name": "Raynell",
+    "last_name": "Surfleet",
+    "age": 22
+  },
+  {
+    "user_id": 2,
+    "first_name": "Melody",
+    "last_name": "Corbet",
+    "age": 54
+  },
+  {
+    "user_id": 3,
+    "first_name": "Ryun",
+    "last_name": "Lavarack",
+    "age": 44
+  },
+  {
+    "user_id": 4,
+    "first_name": "Inesita",
+    "last_name": "Speares",
+    "age": 60
+  },
+  {
+    "user_id": 5,
+    "first_name": "Stevena",
+    "last_name": "Vergo",
+    "age": 87
+  },
+  {
+    "user_id": 6,
+    "first_name": "Elayne",
+    "last_name": "Brannigan",
+    "age": 64
+  },
+  {
+    "user_id": 7,
+    "first_name": "Chaunce",
+    "last_name": "Deroche",
+    "age": 59
+  },
+  {
+    "user_id": 8,
+    "first_name": "Alica",
+    "last_name": "Gooda",
+    "age": 19
+  },
+  {
+    "user_id": 9,
+    "first_name": "Mortie",
+    "last_name": "Hay",
+    "age": 28
+  },
+  {
+    "user_id": 10,
+    "first_name": "Felike",
+    "last_name": "Loins",
+    "age": 54
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "01KJD4V92QGTH8FYM110KNCY97",
+    "name": "Elton Galley",
+    "breed": "Golden Retriever",
+    "weight": 12
+  },
+  {
+    "id": "01KJD4V92RQAGS5KF8QF0X8WMK",
+    "name": "Emmeline Cafe",
+    "breed": "Labrador Retriever",
+    "weight": 52
+  },
+  {
+    "id": "01KJD4V92RFRV944ZNTWG8J72B",
+    "name": "Damiano Segrott",
+    "breed": "Bulldog",
+    "weight": 55
+  },
+  {
+    "id": "01KJD4V92SQBYDSE7RB8XBN7YG",
+    "name": "Giulio Breckell",
+    "breed": "German Shepherd",
+    "weight": 95
+  },
+  {
+    "id": "01KJD4V92SNH3TREG8ME6FTZNF",
+    "name": "Yancy Lorenz",
+    "breed": "Bulldog",
+    "weight": 74
+  },
+  {
+    "id": "01KJD4V92TZRX1GDX3YSXNC9HJ",
+    "name": "Abigail Chanter",
+    "breed": "Bulldog",
+    "weight": 96
+  },
+  {
+    "id": "01KJD4V92T7M44R05D0K2SVRCC",
+    "name": "Lincoln MacEntee",
+    "breed": "Golden Retriever",
+    "weight": 64
+  },
+  {
+    "id": "01KJD4V92VW3XAQ7R2DVFTM72E",
+    "name": "Celesta Ordelt",
+    "breed": "German Shepherd",
+    "weight": 47
+  },
+  {
+    "id": "01KJD4V92V4SZJWKZF3A0SN7ZW",
+    "name": "Chadwick Blayd",
+    "breed": "Golden Retriever",
+    "weight": 99
+  },
+  {
+    "id": "01KJD4V92VCF9NJ6EAXQNTT1E0",
+    "name": "Doro Hillett",
+    "breed": "Bulldog",
+    "weight": 89
+  },
+  {
+    "id": "01KJD4V92WVEPQ373X11MX8CDK",
+    "name": "Dur Bauchop",
+    "breed": "Bulldog",
+    "weight": 75
+  },
+  {
+    "id": "01KJD4V92WTXKXZ9KDC9YQKHHE",
+    "name": "Heath Summersby",
+    "breed": "Bulldog",
+    "weight": 91
+  },
+  {
+    "id": "01KJD4V92XTZMEM2CN72P7HEXR",
+    "name": "Bobbette Haggidon",
+    "breed": "Bulldog",
+    "weight": 89
+  },
+  {
+    "id": "01KJD4V92YKSNSFKVEB3KKAYS5",
+    "name": "Dani Speck",
+    "breed": "Labrador Retriever",
+    "weight": 39
+  },
+  {
+    "id": "01KJD4V92Y9B7JM1HG3MJPXP4W",
+    "name": "Jemimah Keightley",
+    "breed": "Bulldog",
+    "weight": 19
+  }
+]
