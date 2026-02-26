@@ -1,33 +1,43 @@
 package shelter
 
 import kotlinx.serialization.json.Json
-import users.UserRepository
 import java.io.File
 import java.lang.IllegalArgumentException
 
-class ShelterRepository private constructor(){
+class ShelterRepository private constructor() {
 
     private val file = File("dogs.json")
-    private  val content = file.readText().trim()
+    private val content = file.readText().trim()
 
     private val _dogs: MutableList<Dog> = loadDogs()
     val dogs
         get() = _dogs.toList()
 
-    private fun loadDogs(): MutableList<Dog>{
+    private fun loadDogs(): MutableList<Dog> {
         return Json.decodeFromString(content)
     }
 
-    companion object{
+    companion object {
 
-        private val instance: ShelterRepository by lazy {
-            ShelterRepository()
-        }
+        private var lock = Any()
+        private var instance: ShelterRepository? = null
 
-        fun getInstance(pass: String): ShelterRepository{
+        fun getInstance(pass: String): ShelterRepository {
             val currentPass = File("password.txt").readText().trim()
             if (currentPass != pass) throw IllegalArgumentException("Wrong password")
-            return instance
+            instance?.let {
+                return it
+            }
+
+            synchronized(lock) {
+                instance?.let {
+                    return it
+                }
+
+                return ShelterRepository().also {
+                    instance = it
+                }
+            }
         }
 
     }

@@ -20,18 +20,23 @@ class UserRepository private constructor() {
 
     companion object {
 
-        private lateinit var  instance: UserRepository
+        private val lock = Any()
+        private var instance: UserRepository? = null
 
         fun getInstance(password: String): UserRepository {
             val correctPassword = File("password.txt").readText().trim()
 
             if (correctPassword != password) throw IllegalArgumentException("Wrong password")
 
-            if (!::instance.isInitialized) {
-                instance = UserRepository()
-            }
+            instance?.let { return it }
 
-            return instance
+            synchronized(lock) {
+                instance?.let { return it }
+
+                return UserRepository().also {
+                    instance = it
+                }
+            }
         }
     }
 
