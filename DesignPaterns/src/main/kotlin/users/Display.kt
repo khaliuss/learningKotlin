@@ -1,12 +1,17 @@
 package users
 
+import observers.Observer
 import java.awt.Dimension
 import java.awt.Insets
 import javax.swing.JFrame
 import javax.swing.JScrollPane
 import javax.swing.JTextArea
 
-class Display {
+class Display{
+
+
+
+    var frame: JFrame? = null
 
     fun show(){
 
@@ -17,20 +22,25 @@ class Display {
 
         val scroll = JScrollPane(textArea)
 
-        JFrame().apply {
+         frame =JFrame().apply {
             isVisible = true
             isResizable = false
             size = Dimension(600,600)
             add(scroll)
         }
 
-        UserRepository.getInstance("qwerty")
-            .users
-            .joinToString("\n")
-            .let {
-                textArea.text = it
+        UserRepository.getInstance("qwerty").registerObserver(object : Observer<List<User>> {
+            override fun onChange(newValue: List<User>) {
+                textArea.text = newValue.joinToString("\n")
             }
 
+        })
+
     }
+
+
+
+
+
 
 }
