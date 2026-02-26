@@ -19,15 +19,15 @@ class ShelterRepository private constructor(){
 
     companion object{
 
-        private var instance: ShelterRepository? = null
+        private lateinit var instance: ShelterRepository
 
         fun getInstance(pass: String): ShelterRepository{
             val currentPass = File("password.txt").readText().trim()
             if (currentPass != pass) throw IllegalArgumentException("Wrong password")
-            if (instance == null){
+            if (!::instance.isInitialized){
                 instance = ShelterRepository()
             }
-            return instance!!;
+            return instance
         }
 
     }
