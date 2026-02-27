@@ -1,5 +1,7 @@
 package shelter
 
+import comand.Command
+
 
 class Administrator {
 
@@ -34,7 +36,13 @@ class Administrator {
     private fun deleteUser() {
         print("Enter id: ")
         val id = readln().toInt()
-        userRepository.deleteUser(id)
+        //I left it like this bc sometimes I forget how it works
+        DogsInvoker.addCommand(object: Command{
+            override fun execute() {
+                userRepository.deleteUser(id)
+            }
+        })
+
     }
 
     private fun addUser() {
@@ -44,7 +52,9 @@ class Administrator {
         val lastName = readln()
         print("Enter weight: ")
         val weight = readln().toDouble()
-        userRepository.addUser(firstName,lastName,weight)
+        DogsInvoker.addCommand {
+            userRepository.addUser(firstName,lastName,weight)
+        }
     }
 
 }

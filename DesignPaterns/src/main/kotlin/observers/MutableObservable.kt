@@ -9,7 +9,7 @@ class MutableObservable<T>(initialization : T) : Observable<T> {
         }
 
     private val _observers = mutableListOf<Observer<T>>()
-    override val observers: List<Observer<T>>
+    override val observers
         get() = _observers.toList()
 
     override fun registerObserver(observer: Observer<T>) {

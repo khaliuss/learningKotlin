@@ -2,6 +2,7 @@ package users
 
 import kotlinx.serialization.json.Json
 import observers.MutableObservable
+import observers.Observable
 import java.io.File
 
 class UserRepository private constructor(){
@@ -10,30 +11,30 @@ class UserRepository private constructor(){
     private val content = file.readText().trim()
 
 
-    private val _users: MutableList<User> = loadAllUsers()
+    private val userList: MutableList<User> = loadAllUsers()
 
-    val users = MutableObservable(_users.toList())
-
-
+    private val _users = MutableObservable(userList.toList())
+    val users: Observable<List<User>>
+        get() =  _users
 
     private fun loadAllUsers(): MutableList<User> {
         return Json.decodeFromString(content)
     }
 
     fun deleteUser(id : Int){
-        _users.removeIf { it.id == id }
-        users.currentValue = _users
+        userList.removeIf { it.id == id }
+        _users.currentValue = userList
     }
 
     fun addUser(firstName:String,lastName:String,age:Int){
-        val id = _users.maxOf {  it.id }+1
+        val id = userList.maxOf {  it.id }+1
         val user = User(id,firstName,lastName,age)
-        _users.add(user)
-        users.currentValue = _users
+        userList.add(user)
+        _users.currentValue = userList
     }
 
     fun save(){
-        file.writeText(Json.encodeToString(_users))
+        file.writeText(Json.encodeToString(userList))
     }
 
 

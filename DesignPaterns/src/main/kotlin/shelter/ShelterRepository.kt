@@ -3,7 +3,6 @@ package shelter
 import kotlinx.serialization.json.Json
 import observers.MutableObservable
 import observers.Observable
-import observers.Observer
 import java.io.File
 import java.lang.IllegalArgumentException
 import kotlin.collections.maxOf
@@ -14,9 +13,12 @@ class ShelterRepository private constructor() {
     private val content = file.readText().trim()
 
 
-    private val _dogs: MutableList<Dog> = loadDogs()
+    private val dogsList: MutableList<Dog> = loadDogs()
 
-    val dogs = MutableObservable(_dogs.toList())
+    private val _dogs = MutableObservable(dogsList.toList())
+    val dogs: Observable<List<Dog>>
+        get()= _dogs
+
 
 
     private fun loadDogs(): MutableList<Dog> {
@@ -24,19 +26,19 @@ class ShelterRepository private constructor() {
     }
 
     fun deleteUser(id : Int){
-        _dogs.removeIf { it.id == id }
-        dogs.currentValue = _dogs
+        dogsList.removeIf { it.id == id }
+        _dogs.currentValue = dogsList
     }
 
     fun addUser(firstName:String, lastName:String, weight: Double){
-        val id = _dogs.maxOf{  it.id }+1
+        val id = dogsList.maxOf{  it.id }+1
         val user = Dog(id,firstName,lastName,weight)
-        _dogs.add(user)
-        dogs.currentValue = _dogs
+        dogsList.add(user)
+        _dogs.currentValue = dogsList
     }
 
     fun save(){
-        file.writeText(Json.encodeToString(_dogs))
+        file.writeText(Json.encodeToString(dogsList))
     }
 
     companion object {
