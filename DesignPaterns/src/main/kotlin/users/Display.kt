@@ -29,12 +29,9 @@ class Display{
             add(scroll)
         }
 
-        UserRepository.getInstance("qwerty").registerObserver(object : Observer<List<User>> {
-            override fun onChange(newValue: List<User>) {
-                textArea.text = newValue.joinToString("\n")
-            }
-
-        })
+        UserRepository.getInstance("qwerty").registerObserver {
+            textArea.text = it.joinToString("\n")
+        }
 
     }
 

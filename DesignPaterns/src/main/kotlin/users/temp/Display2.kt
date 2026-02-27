@@ -1,32 +1,44 @@
-package shelter
+package users.temp
 
-import observers.Observer
+
+
 import java.awt.Dimension
 import java.awt.Insets
 import javax.swing.JFrame
 import javax.swing.JScrollPane
 import javax.swing.JTextArea
 
-class Display {
+class Display2{
 
-    fun show() {
+
+
+    fun show(){
+
         val textArea = JTextArea().apply {
             isEditable = false
-            margin = Insets(32, 32, 32, 32)
+            margin = Insets(32,32,32,32)
         }
 
-        val scrollable = JScrollPane(textArea)
+        val scroll = JScrollPane(textArea)
 
-        JFrame().apply {
+         JFrame().apply {
             isVisible = true
-            size = Dimension(600, 600)
-            add(scrollable)
+            isResizable = false
+            size = Dimension(600,600)
+            add(scroll)
         }
 
-        ShelterRepository.getInstance("qwerty").registerObserver {
+        UserRepository2.getInstance("qwerty").registerObserver(){
             textArea.text = it.joinToString("\n")
         }
 
+
+
     }
+
+
+
+
+
 
 }
