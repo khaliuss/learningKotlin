@@ -1,30 +1,34 @@
 package users
 
 import kotlinx.serialization.json.Json
+import observers.Observable
 import observers.Observer
 import java.io.File
 
-class UserRepository private constructor() {
+class UserRepository private constructor() : Observable<List<User>> {
 
     private val file = File("users.json")
     private val content = file.readText().trim()
 
 
     private val _users: MutableList<User> = loadAllUsers()
-    val users
+
+    override val currentValue: List<User>
         get() = _users.toList()
 
-    val observers = mutableListOf<Observer<List<User>>>()
+    private  val _observers = mutableListOf<Observer<List<User>>>()
 
-    fun notifyObserver(){
-        for (display in observers){
-            display.onChange(users)
-        }
+    override val observers
+        get() = _observers
+
+
+    override fun registerObserver(observer: Observer<List<User>>){
+        _observers.add(observer)
+        observer.onChange(currentValue)
     }
 
-    fun registerObserver(observer: Observer<List<User>>){
-        observers.add(observer)
-        observer.onChange(users)
+    override fun unregisterObserver(observer: Observer<List<User>>) {
+        _observers.remove (observer)
     }
 
     private fun loadAllUsers(): MutableList<User> {
@@ -33,14 +37,14 @@ class UserRepository private constructor() {
 
     fun deleteUser(id : Int){
         _users.removeIf { it.id == id }
-        notifyObserver()
+        notifyObservers()
     }
 
     fun addUser(firstName:String,lastName:String,age:Int){
-        val id = users.maxOf {  it.id }+1
+        val id = currentValue.maxOf {  it.id }+1
         val user = User(id,firstName,lastName,age)
         _users.add(user)
-        notifyObserver()
+        notifyObservers()
     }
 
     fun save(){
