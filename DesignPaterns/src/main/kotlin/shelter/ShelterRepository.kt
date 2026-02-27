@@ -1,36 +1,23 @@
 package shelter
 
 import kotlinx.serialization.json.Json
+import observers.MutableObservable
 import observers.Observable
 import observers.Observer
 import java.io.File
 import java.lang.IllegalArgumentException
 import kotlin.collections.maxOf
 
-class ShelterRepository private constructor() : Observable<List<Dog>> {
+class ShelterRepository private constructor() {
 
     private val file = File("dogs.json")
     private val content = file.readText().trim()
 
 
     private val _dogs: MutableList<Dog> = loadDogs()
-    override val currentValue: List<Dog>
-        get() = _dogs.toList()
 
+    val dogs = MutableObservable(_dogs.toList())
 
-    private val _observers = mutableListOf<Observer<List<Dog>>>()
-    override val observers: List<Observer<List<Dog>>>
-        get() = _observers.toList()
-
-
-    override fun registerObserver(observer: Observer<List<Dog>>){
-        _observers.add(observer)
-        observer.onChange(currentValue)
-    }
-
-    override fun unregisterObserver(observer: Observer<List<Dog>>) {
-        _observers.remove(observer)
-    }
 
     private fun loadDogs(): MutableList<Dog> {
         return Json.decodeFromString(content)
@@ -38,14 +25,14 @@ class ShelterRepository private constructor() : Observable<List<Dog>> {
 
     fun deleteUser(id : Int){
         _dogs.removeIf { it.id == id }
-        notifyObservers()
+        dogs.currentValue = _dogs
     }
 
     fun addUser(firstName:String, lastName:String, weight: Double){
-        val id = currentValue.maxOf{  it.id }+1
+        val id = _dogs.maxOf{  it.id }+1
         val user = Dog(id,firstName,lastName,weight)
         _dogs.add(user)
-        notifyObservers()
+        dogs.currentValue = _dogs
     }
 
     fun save(){

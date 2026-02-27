@@ -23,7 +23,7 @@ class Display {
             add(scrollable)
         }
 
-        ShelterRepository.getInstance("qwerty").registerObserver {
+        ShelterRepository.getInstance("qwerty").dogs.registerObserver {
             textArea.text = it.joinToString("\n")
         }
 

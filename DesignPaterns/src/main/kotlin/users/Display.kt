@@ -29,7 +29,7 @@ class Display{
             add(scroll)
         }
 
-        UserRepository.getInstance("qwerty").registerObserver {
+        UserRepository.getInstance("qwerty").users.registerObserver {
             textArea.text = it.joinToString("\n")
         }
 
