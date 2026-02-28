@@ -17,36 +17,25 @@ class NumbersArrayList : NumbersMutableList {
         size++
     }
 
-    override fun plus(number: Int) {
-        add(number)
-    }
-
-
-
     fun isNeedExpand(){
         if (size == arrayList.size){
             val newArray = arrayOfNulls<Int>(arrayList.size*2)
-            for (index in arrayList.indices){
-                newArray[index] = arrayList[index]
-            }
+            System.arraycopy(arrayList,0,newArray,0,size)
             arrayList = newArray
         }
     }
 
     override fun add(index: Int, number: Int) {
         isNeedExpand()
-
-        for (i in size downTo index+1){
-            arrayList[i] = arrayList[i-1]
-        }
+        checkIndexForAdd(index)
+        System.arraycopy(arrayList,index,arrayList,index+1,size-index)
         arrayList[index] = number
         size++
     }
 
     override fun removeAt(index: Int) {
-        for (i in index until size-1){
-            arrayList[i] = arrayList[i+1]
-        }
+        checkIndex(index)
+        System.arraycopy(arrayList,index+1,arrayList,index,size-index-1)
 
         size--
         arrayList[size] = null
@@ -61,9 +50,6 @@ class NumbersArrayList : NumbersMutableList {
         }
     }
 
-    override fun minus(number: Int) {
-        remove(number)
-    }
 
     override fun contains(number: Int): Boolean {
         for(i in 0 until size){
@@ -75,7 +61,20 @@ class NumbersArrayList : NumbersMutableList {
         return false
     }
 
+    private fun checkIndex(index:Int) {
+        if (index < 0 || index >= size){
+            throw IndexOutOfBoundsException("Index: $index Size: $size")
+        }
+    }
+
+    private fun checkIndexForAdd(index:Int) {
+        if (index < 0 || index > size){
+            throw IndexOutOfBoundsException("Index: $index Size: $size")
+        }
+    }
+
     override fun get(index: Int): Int {
+        checkIndex(index)
         return arrayList[index]!!
     }
 

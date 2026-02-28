@@ -3,7 +3,9 @@ package collections
 
 import org.example.collections.NumbersArrayList
 import org.example.collections.NumbersMutableList
+import org.example.collections.collections.NumbersLinkedList
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 
@@ -14,23 +16,6 @@ class NumbersMutableListTest {
     fun `When add 1 element then size is 1`(list: NumbersMutableList) {
         list.add(0)
         assertEquals(1, list.size)
-    }
-
-    @ParameterizedTest
-    @MethodSource("mutableListSource")
-    fun `When add 1 element with operator plus then size is 1`(list: NumbersMutableList) {
-        list+0
-        assertEquals(1, list.size)
-    }
-
-    @ParameterizedTest
-    @MethodSource("mutableListSource")
-    fun `When remove 1 element with operator minus then size decrease`(list: NumbersMutableList) {
-        repeat(10){
-            list+it
-        }
-        list-0
-        assertEquals(9, list.size)
     }
 
     @ParameterizedTest
@@ -74,12 +59,22 @@ class NumbersMutableListTest {
 
     @ParameterizedTest
     @MethodSource("mutableListSource")
-    fun `When element added to first position then it is in last position`(list: NumbersMutableList) {
+    fun `When element added to last position then it is in last position`(list: NumbersMutableList) {
         repeat(100) {
             list.add(it)
         }
         list.add(100, 1000)
         assertEquals(1000, list[100])
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When element added to middle position then it is in middle position`(list: NumbersMutableList) {
+        repeat(100) {
+            list.add(it)
+        }
+        list.add(50, 1000)
+        assertEquals(1000, list[50])
     }
 
 
@@ -152,10 +147,84 @@ class NumbersMutableListTest {
         assertEquals(51, list[50])
     }
 
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When method get invoked with wrong index then exception is thrown` (list: NumbersMutableList) {
+        repeat (10) {
+            list.add(it)
+        }
+        assertThrows<IndexOutOfBoundsException> {
+            list[10]
+        }
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When method get invoked with negative index then exception is thrown` (list: NumbersMutableList) {
+        repeat (10) {
+            list.add(it)
+        }
+        assertThrows<IndexOutOfBoundsException> {
+            list[-10]
+        }
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When method removeAt invoked with wrong index then exception is thrown` (list: NumbersMutableList) {
+        repeat (10) {
+            list.add(it)
+        }
+        assertThrows<IndexOutOfBoundsException> {
+            list.removeAt(10)
+        }
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When method removeAt invoked with negative index then exception is thrown` (list: NumbersMutableList) {
+        repeat (10) {
+            list.add(it)
+        }
+        assertThrows<IndexOutOfBoundsException> {
+            list.removeAt(-10)
+        }
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When method add invoked with wrong index then exception is thrown` (list: NumbersMutableList) {
+        repeat (10) {
+            list.add(it)
+        }
+        assertThrows<IndexOutOfBoundsException> {
+            list.add(15,9)
+        }
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When method add invoked with negative index then exception is thrown` (list: NumbersMutableList) {
+        repeat (10) {
+            list.add(it)
+        }
+        assertThrows<IndexOutOfBoundsException> {
+            list.add(-10,9)
+        }
+
+    }
+
+
+
     companion object {
 
         @JvmStatic
-        fun mutableListSource() = listOf(NumbersArrayList())
+        fun mutableListSource() = listOf(NumbersLinkedList())
 
     }
 

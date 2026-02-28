@@ -6,10 +6,6 @@ interface NumbersMutableList {
 
     fun add(number: Int)
 
-    operator fun plus(number:Int)
-
-    operator fun minus(number:Int)
-
     fun add(index: Int, number: Int)
 
     fun removeAt(index: Int)
