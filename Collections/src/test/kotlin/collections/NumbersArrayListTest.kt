@@ -147,6 +147,8 @@ class NumbersMutableListTest {
             list.add(it)
         }
         list.remove(50)
+        //when we override get operator we can get excess by [] not by .get()
+        //assertEquals(51, list.get(50))
         assertEquals(51, list[50])
     }
 

@@ -2,7 +2,11 @@ package org.example.collections
 
 class NumbersArrayList : NumbersMutableList {
 
-    var arrayList = arrayOfNulls<Int>(10)
+    companion object{
+        private const val INITIAL_CAPACITY = 10
+    }
+
+    var arrayList = arrayOfNulls<Int>(INITIAL_CAPACITY)
 
     override var size: Int = 0
         private set
@@ -78,7 +82,7 @@ class NumbersArrayList : NumbersMutableList {
 
 
     override fun clear() {
-        arrayList = arrayOfNulls(10)
+        arrayList = arrayOfNulls(INITIAL_CAPACITY)
         size=0
     }
 }
