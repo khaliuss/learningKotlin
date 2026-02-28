@@ -18,6 +18,23 @@ class NumbersMutableListTest {
 
     @ParameterizedTest
     @MethodSource("mutableListSource")
+    fun `When add 1 element with operator plus then size is 1`(list: NumbersMutableList) {
+        list+0
+        assertEquals(1, list.size)
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
+    fun `When remove 1 element with operator minus then size decrease`(list: NumbersMutableList) {
+        repeat(10){
+            list+it
+        }
+        list-0
+        assertEquals(9, list.size)
+    }
+
+    @ParameterizedTest
+    @MethodSource("mutableListSource")
     fun `When list is cleared then size is O elements`(list: NumbersMutableList) {
         repeat(100) {
             list.add(it)
@@ -52,7 +69,7 @@ class NumbersMutableListTest {
             list.add(it)
         }
         list.add(0, 1000)
-        assertEquals(1000, list.get(0))
+        assertEquals(1000, list[0])
     }
 
     @ParameterizedTest
@@ -62,7 +79,7 @@ class NumbersMutableListTest {
             list.add(it)
         }
         list.add(100, 1000)
-        assertEquals(1000, list.get(100))
+        assertEquals(1000, list[100])
     }
 
 
@@ -90,7 +107,7 @@ class NumbersMutableListTest {
         repeat(10) {
             list.add(it)
         }
-        assertEquals(5, list.get(5))
+        assertEquals(5, list[5])
     }
 
     @ParameterizedTest
@@ -99,7 +116,7 @@ class NumbersMutableListTest {
         repeat(100) {
             list.add(it)
         }
-        assertEquals(50, list.get(50))
+        assertEquals(50, list[50])
     }
 
     @ParameterizedTest
@@ -120,7 +137,7 @@ class NumbersMutableListTest {
         }
 
         list.removeAt(50)
-        assertEquals(51, list.get(50))
+        assertEquals(51, list[50])
     }
 
     @ParameterizedTest
@@ -130,7 +147,7 @@ class NumbersMutableListTest {
             list.add(it)
         }
         list.remove(50)
-        assertEquals(51, list.get(50))
+        assertEquals(51, list[50])
     }
 
     companion object {

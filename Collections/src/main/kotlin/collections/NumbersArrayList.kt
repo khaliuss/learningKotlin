@@ -13,6 +13,12 @@ class NumbersArrayList : NumbersMutableList {
         size++
     }
 
+    override fun plus(number: Int) {
+        add(number)
+    }
+
+
+
     fun isNeedExpand(){
         if (size == arrayList.size){
             val newArray = arrayOfNulls<Int>(arrayList.size*2)
@@ -49,6 +55,10 @@ class NumbersArrayList : NumbersMutableList {
                 return
             }
         }
+    }
+
+    override fun minus(number: Int) {
+        remove(number)
     }
 
     override fun contains(number: Int): Boolean {
