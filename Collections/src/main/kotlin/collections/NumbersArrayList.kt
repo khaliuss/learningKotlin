@@ -54,7 +54,6 @@ class NumbersArrayList : NumbersMutableList {
     override fun contains(number: Int): Boolean {
         for(i in 0 until size){
             if (arrayList[i] == number){
-                removeAt(i)
                 return true
             }
         }

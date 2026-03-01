@@ -1,6 +1,4 @@
-package org.example.collections.collections
-
-import org.example.collections.NumbersMutableList
+package org.example.collections
 
 class NumbersLinkedList : NumbersMutableList {
 
