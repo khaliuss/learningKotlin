@@ -1,7 +1,6 @@
 package org.example.collections
 
 import kotlin.math.abs
-import org.example.collections.NumbersHashSet.Node
 
 class NumbersHashSet : NumbersMutableSet {
 
