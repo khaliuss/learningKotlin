@@ -1,17 +1,17 @@
 package org.example.practic.p1
 
-interface PracticeMutableSet {
+interface PracticeMutableSet<T> {
 
     val size:Int
 
 
-    fun add(number:Int): Boolean
+    fun add(element:T): Boolean
 
 
-    fun remove(number:Int)
+    fun remove(element:T)
 
 
-    fun contains(number:Int): Boolean
+    fun contains(element:T): Boolean
 
 
     fun clear()

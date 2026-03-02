@@ -3,34 +3,34 @@ package org.example.practic.p1
 import javax.swing.text.Position
 import kotlin.math.abs
 
-class PracticeHashSet : PracticeMutableSet {
+class PracticeHashSet<T> : PracticeMutableSet<T> {
 
     companion object {
         const val INITIAL_CAPACITY = 16
         const val LOAD_FACTOR = 0.75
     }
 
-    var arrayList = arrayOfNulls<Node>(INITIAL_CAPACITY)
+    var arrayList = arrayOfNulls<Node<T>>(INITIAL_CAPACITY)
 
     override var size: Int = 0
         private set
 
-    override fun add(number: Int): Boolean {
+    override fun add(element: T): Boolean {
         if (size >= arrayList.size * LOAD_FACTOR) {
             expandArray()
         }
 
-        return add(number, arrayList).also {
+        return add(element, arrayList).also {
             if (it) {
                 size++
             }
         }
     }
 
-    private fun add(number: Int, newArray: Array<Node?>): Boolean {
+    private fun add(element: T, newArray: Array<Node<T>?>): Boolean {
 
-        val newNode = Node(number)
-        val position = getPosition(number, newArray.size)
+        val newNode = Node(element)
+        val position = getPosition(element, newArray.size)
         var existElement = newArray[position]
 
         if (existElement == null) {
@@ -38,7 +38,7 @@ class PracticeHashSet : PracticeMutableSet {
             return true
         } else {
             while (true) {
-                if (existElement?.item == number) {
+                if (existElement?.item == element) {
                     return false
                 } else {
                     if (existElement?.next == null) {
@@ -55,19 +55,19 @@ class PracticeHashSet : PracticeMutableSet {
     }
 
     //andrew code
-    /*override fun remove(number: Int) {
+    override fun remove(element: T) {
 
-        val position: Int = getPosition(number, arrayList.size)
-        val existedElement :Node = arrayList[position] ?: return
-        if (existedElement.item == number) {
+        val position: Int = getPosition(element, arrayList.size)
+        val existedElement :Node<T> = arrayList[position] ?: return
+        if (existedElement.item == element) {
             arrayList[position] = existedElement.next
             size--
             return
         }
-        var before: Node? = existedElement
+        var before: Node<T>? = existedElement
         while (before?.next != null) {
-            val removingElement : Node? = before.next
-            if (removingElement?.item == number) {
+            val removingElement : Node<T>? = before.next
+            if (removingElement?.item == element) {
                 before.next = removingElement.next
                 size--
                 return
@@ -75,13 +75,13 @@ class PracticeHashSet : PracticeMutableSet {
                 before = before.next
             }
         }
-    }*/
+    }
 
     //my code
-    override fun remove(number: Int) {
-        val position = getPosition(number, arrayList.size)
+    /*override fun remove(element: T) {
+        val position = getPosition(element, arrayList.size)
 
-        if (arrayList[position]?.item == number) {
+        if (arrayList[position]?.item == element) {
             if (arrayList[position]?.next == null){
                 arrayList[position] = null
                 size--
@@ -96,7 +96,7 @@ class PracticeHashSet : PracticeMutableSet {
         var node = arrayList[position]
 
         while (true) {
-            if (node?.next?.item == number){
+            if (node?.next?.item == element){
                 node.next = node.next?.next
                 size--
                 return
@@ -104,14 +104,14 @@ class PracticeHashSet : PracticeMutableSet {
                 node = node?.next
             }
         }
-    }
+    }*/
 
-    override fun contains(number: Int): Boolean {
-        val position = getPosition(number, arrayList.size)
+    override fun contains(element: T): Boolean {
+        val position = getPosition(element, arrayList.size)
         var node = arrayList[position]
 
         while (node != null) {
-            if (node.item == number) {
+            if (node.item == element) {
                 return true
             } else {
                 node = node.next
@@ -126,7 +126,7 @@ class PracticeHashSet : PracticeMutableSet {
     }
 
     private fun expandArray() {
-        val newArray = arrayOfNulls<Node>(arrayList.size * 2)
+        val newArray = arrayOfNulls<Node<T>>(arrayList.size * 2)
 
         for (node in arrayList) {
 
@@ -142,13 +142,13 @@ class PracticeHashSet : PracticeMutableSet {
         arrayList = newArray
     }
 
-    private fun getPosition(item: Int, arraySize: Int): Int {
-        return abs(item % arraySize)
+    private fun getPosition(item: T, arraySize: Int): Int {
+        return abs(item.hashCode() % arraySize)
     }
 
-    data class Node(
-        var item: Int,
-        var next: Node? = null
+    data class Node<T>(
+        var item: T,
+        var next: Node<T>? = null
     )
 
 }

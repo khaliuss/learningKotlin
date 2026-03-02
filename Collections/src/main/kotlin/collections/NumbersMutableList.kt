@@ -1,20 +1,20 @@
 package org.example.collections
 
-interface NumbersMutableList {
+interface NumbersMutableList<T> {
 
     val size: Int
 
-    fun add(number: Int)
+    fun add(element: T)
 
-    fun add(index: Int, number: Int)
+    fun add(index: Int, element: T)
 
     fun removeAt(index: Int)
 
-    operator fun get(index: Int): Int
+    operator fun get(index: Int): T
 
-    fun remove(number: Int)
+    fun remove(element: T)
 
-    fun contains(number: Int): Boolean
+    fun contains(element: T): Boolean
 
     fun clear()
 

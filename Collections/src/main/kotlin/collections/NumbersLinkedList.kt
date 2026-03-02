@@ -1,16 +1,16 @@
 package org.example.collections
 
-class NumbersLinkedList : NumbersMutableList {
+class NumbersLinkedList<T> : NumbersMutableList<T> {
 
-    private var first: Node? = null
-    private var last: Node? = null
+    private var first: Node<T>? = null
+    private var last: Node<T>? = null
 
     override var size: Int = 0
         private set
 
-    override fun add(number: Int) {
+    override fun add(element: T) {
         val prevLast = last
-        last = Node(prevLast,number)
+        last = Node(prevLast,element)
         if (prevLast == null){
             first = last
         }else{
@@ -20,15 +20,15 @@ class NumbersLinkedList : NumbersMutableList {
     }
 
 
-    override fun add(index: Int, number: Int) {
+    override fun add(index: Int, element: T) {
         checkIndexForAdd(index)
         if (index == size) {
-            add(number)
+            add(element)
             return
         }
 
         if (index == 0) {
-            val newElement = Node(null,number, first)
+            val newElement = Node(null,element, first)
             first?.prev = newElement
             first = newElement
             size++
@@ -37,7 +37,7 @@ class NumbersLinkedList : NumbersMutableList {
 
         val before = getNode(index - 1)
         val after = before.next
-        val newNode = Node(before,number, after)
+        val newNode = Node(before,element, after)
         before.next = newNode
         after?.prev = newNode
         size++
@@ -50,7 +50,7 @@ class NumbersLinkedList : NumbersMutableList {
 
     }
 
-    private fun unLink(node: Node){
+    private fun unLink(node: Node<T>){
         val before = node.prev
         val after = node.next
         before?.next = after
@@ -65,10 +65,10 @@ class NumbersLinkedList : NumbersMutableList {
         size--
     }
 
-    override fun remove(number: Int) {
+    override fun remove(element: T) {
         var node = first
         repeat(size) {
-            if (node?.item == number) {
+            if (node?.item == element) {
                 unLink(node)
                 return
             }else{
@@ -77,12 +77,12 @@ class NumbersLinkedList : NumbersMutableList {
         }
     }
 
-    override fun get(index: Int): Int {
+    override fun get(index: Int): T {
         checkIndex(index)
-        return getNode(index).item
+        return getNode(index).item as T
     }
 
-    private fun getNode(index: Int): Node {
+    private fun getNode(index: Int): Node<T> {
         checkIndex(index)
         if (index == 0) return first!!
         if (index == size - 1) return last!!
@@ -118,10 +118,10 @@ class NumbersLinkedList : NumbersMutableList {
         }
     }
 
-    override fun contains(number: Int): Boolean {
+    override fun contains(element: T): Boolean {
         var node = first
         repeat(size) {
-            if (node?.item == number) {
+            if (node?.item == element) {
                 return true
             }
             node = node?.next
@@ -135,10 +135,10 @@ class NumbersLinkedList : NumbersMutableList {
         size = 0
     }
 
-    class Node(
-        var prev: Node? = null,
-        val item: Int,
-        var next: Node? = null
+    class Node<T>(
+        var prev: Node<T>? = null,
+        val item: T,
+        var next: Node<T>? = null
     )
 
 }

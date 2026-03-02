@@ -1,35 +1,35 @@
 package org.example.collections
 
-class NumbersArrayList : NumbersMutableList {
+class NumbersArrayList<T> : NumbersMutableList<T> {
 
     companion object{
         private const val INITIAL_CAPACITY = 10
     }
 
-    var arrayList = arrayOfNulls<Int>(INITIAL_CAPACITY)
+    var arrayList = arrayOfNulls<Any?>(INITIAL_CAPACITY)
 
     override var size: Int = 0
         private set
 
-    override fun add(number: Int) {
+    override fun add(element: T) {
         isNeedExpand()
-        arrayList[size] = number
+        arrayList[size] = element
         size++
     }
 
     fun isNeedExpand(){
         if (size == arrayList.size){
-            val newArray = arrayOfNulls<Int>(arrayList.size*2)
+            val newArray = arrayOfNulls<Any?>(arrayList.size*2)
             System.arraycopy(arrayList,0,newArray,0,size)
             arrayList = newArray
         }
     }
 
-    override fun add(index: Int, number: Int) {
+    override fun add(index: Int, element: T) {
         isNeedExpand()
         checkIndexForAdd(index)
         System.arraycopy(arrayList,index,arrayList,index+1,size-index)
-        arrayList[index] = number
+        arrayList[index] = element
         size++
     }
 
@@ -41,9 +41,9 @@ class NumbersArrayList : NumbersMutableList {
         arrayList[size] = null
     }
 
-    override fun remove(number: Int) {
+    override fun remove(element: T) {
         for(i in 0 until size){
-            if (arrayList[i] == number){
+            if (arrayList[i] == element){
                 removeAt(i)
                 return
             }
@@ -51,9 +51,9 @@ class NumbersArrayList : NumbersMutableList {
     }
 
 
-    override fun contains(number: Int): Boolean {
+    override fun contains(element: T): Boolean {
         for(i in 0 until size){
-            if (arrayList[i] == number){
+            if (arrayList[i] == element){
                 return true
             }
         }
@@ -72,9 +72,9 @@ class NumbersArrayList : NumbersMutableList {
         }
     }
 
-    override fun get(index: Int): Int {
+    override fun get(index: Int): T {
         checkIndex(index)
-        return arrayList[index]!!
+        return arrayList[index] as T
     }
 
 
