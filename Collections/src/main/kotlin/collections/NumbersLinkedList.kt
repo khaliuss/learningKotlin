@@ -1,6 +1,6 @@
 package org.example.collections
 
-class NumbersLinkedList<T> : NumbersMutableList<T> {
+class NumbersLinkedList<T> : NumbersMutableList<T>, Iterable<T> {
 
     private var first: Node<T>? = null
     private var last: Node<T>? = null
@@ -133,6 +133,24 @@ class NumbersLinkedList<T> : NumbersMutableList<T> {
         first = null
         last = null
         size = 0
+    }
+
+    override fun iterator(): Iterator<T> {
+        return object : Iterator<T>{
+
+            var nextElement = first
+
+            override fun next(): T {
+                val item = nextElement?.item
+                nextElement = nextElement?.next
+                return item!!
+            }
+
+            override fun hasNext(): Boolean {
+                return nextElement != null
+            }
+
+        }
     }
 
     class Node<T>(

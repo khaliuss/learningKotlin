@@ -1,8 +1,8 @@
 package org.example.collections
 
-class NumbersArrayList<T> : NumbersMutableList<T> {
+class NumbersArrayList<T> : NumbersMutableList<T>, Iterable<T> {
 
-    companion object{
+    companion object {
         private const val INITIAL_CAPACITY = 10
     }
 
@@ -17,10 +17,10 @@ class NumbersArrayList<T> : NumbersMutableList<T> {
         size++
     }
 
-    fun isNeedExpand(){
-        if (size == arrayList.size){
-            val newArray = arrayOfNulls<Any?>(arrayList.size*2)
-            System.arraycopy(arrayList,0,newArray,0,size)
+    fun isNeedExpand() {
+        if (size == arrayList.size) {
+            val newArray = arrayOfNulls<Any?>(arrayList.size * 2)
+            System.arraycopy(arrayList, 0, newArray, 0, size)
             arrayList = newArray
         }
     }
@@ -28,22 +28,22 @@ class NumbersArrayList<T> : NumbersMutableList<T> {
     override fun add(index: Int, element: T) {
         isNeedExpand()
         checkIndexForAdd(index)
-        System.arraycopy(arrayList,index,arrayList,index+1,size-index)
+        System.arraycopy(arrayList, index, arrayList, index + 1, size - index)
         arrayList[index] = element
         size++
     }
 
     override fun removeAt(index: Int) {
         checkIndex(index)
-        System.arraycopy(arrayList,index+1,arrayList,index,size-index-1)
+        System.arraycopy(arrayList, index + 1, arrayList, index, size - index - 1)
 
         size--
         arrayList[size] = null
     }
 
     override fun remove(element: T) {
-        for(i in 0 until size){
-            if (arrayList[i] == element){
+        for (i in 0 until size) {
+            if (arrayList[i] == element) {
                 removeAt(i)
                 return
             }
@@ -52,22 +52,22 @@ class NumbersArrayList<T> : NumbersMutableList<T> {
 
 
     override fun contains(element: T): Boolean {
-        for(i in 0 until size){
-            if (arrayList[i] == element){
+        for (i in 0 until size) {
+            if (arrayList[i] == element) {
                 return true
             }
         }
         return false
     }
 
-    private fun checkIndex(index:Int) {
-        if (index < 0 || index >= size){
+    private fun checkIndex(index: Int) {
+        if (index < 0 || index >= size) {
             throw IndexOutOfBoundsException("Index: $index Size: $size")
         }
     }
 
-    private fun checkIndexForAdd(index:Int) {
-        if (index < 0 || index > size){
+    private fun checkIndexForAdd(index: Int) {
+        if (index < 0 || index > size) {
             throw IndexOutOfBoundsException("Index: $index Size: $size")
         }
     }
@@ -78,9 +78,25 @@ class NumbersArrayList<T> : NumbersMutableList<T> {
     }
 
 
-
     override fun clear() {
         arrayList = arrayOfNulls(INITIAL_CAPACITY)
-        size=0
+        size = 0
+    }
+
+    override fun iterator(): Iterator<T> {
+
+        return object : Iterator<T> {
+
+            private var nextIndex = 0
+
+            override fun next(): T {
+                return arrayList[nextIndex++] as T
+            }
+
+            override fun hasNext(): Boolean {
+                return nextIndex < size
+            }
+
+        }
     }
 }

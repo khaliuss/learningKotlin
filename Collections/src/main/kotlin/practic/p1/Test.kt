@@ -1,20 +1,18 @@
 package org.example.practic.p1
 
 fun main() {
-    val arr = PracticeHashSet<Item>()
-//    arr.add(4)
-//    arr.add(20)
-//    arr.add(36)
-//
-//
-//    arr.arrayList.forEach ( ::println )
-//
-//    arr.remove(36)
-//    arr.remove(20)
-//
-//    arr.arrayList.forEach ( ::println )
-//
-//    arr.remove(4)
-//    arr.arrayList.forEach ( ::println )
+    val arr = PracticeHashSet<Int>()
+    repeat(100){
+        arr.add(it)
+    }
+    repeat(100){
+        arr.add(it)
+    }
+    for (a in  arr){
+        println(a)
+    }
+
+
+
 
 }

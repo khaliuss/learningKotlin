@@ -3,7 +3,7 @@ package org.example.practic.p1
 import javax.swing.text.Position
 import kotlin.math.abs
 
-class PracticeHashSet<T> : PracticeMutableSet<T> {
+class PracticeHashSet<T> : PracticeMutableSet<T> , Iterable<T>{
 
     companion object {
         const val INITIAL_CAPACITY = 16
@@ -144,6 +144,31 @@ class PracticeHashSet<T> : PracticeMutableSet<T> {
 
     private fun getPosition(item: T, arraySize: Int): Int {
         return abs(item.hashCode() % arraySize)
+    }
+
+    override fun iterator(): Iterator<T> {
+        return object : Iterator<T>{
+
+            private var nodeIndex = 0
+            private var nextNode = arrayList[nodeIndex]
+            private var nextIndex = 0
+
+            override fun next(): T {
+                while (nextNode == null){
+                    nextNode = arrayList[++nodeIndex]
+                }
+                return nextNode?.item!!.also {
+                    nextIndex++
+                    nextNode = nextNode?.next
+                }
+
+            }
+
+            override fun hasNext(): Boolean {
+                return nextIndex<size
+            }
+
+        }
     }
 
     data class Node<T>(
