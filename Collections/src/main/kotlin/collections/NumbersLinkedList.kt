@@ -5,10 +5,13 @@ class NumbersLinkedList<T> : NumbersMutableList<T>, Iterable<T> {
     private var first: Node<T>? = null
     private var last: Node<T>? = null
 
+    private var modCount = 0
+
     override var size: Int = 0
         private set
 
-    override fun add(element: T) {
+    override fun add(element: T): Boolean {
+        modCount++
         val prevLast = last
         last = Node(prevLast,element)
         if (prevLast == null){
@@ -17,10 +20,12 @@ class NumbersLinkedList<T> : NumbersMutableList<T>, Iterable<T> {
             prevLast.next = last
         }
         size++
+        return true
     }
 
 
     override fun add(index: Int, element: T) {
+        modCount++
         checkIndexForAdd(index)
         if (index == size) {
             add(element)
@@ -44,6 +49,7 @@ class NumbersLinkedList<T> : NumbersMutableList<T>, Iterable<T> {
     }
 
     override fun removeAt(index: Int) {
+        modCount++
         checkIndex(index)
         val node = getNode(index)
         unLink(node)
@@ -66,6 +72,7 @@ class NumbersLinkedList<T> : NumbersMutableList<T>, Iterable<T> {
     }
 
     override fun remove(element: T) {
+        modCount++
         var node = first
         repeat(size) {
             if (node?.item == element) {
@@ -130,17 +137,19 @@ class NumbersLinkedList<T> : NumbersMutableList<T>, Iterable<T> {
     }
 
     override fun clear() {
+        modCount++
         first = null
         last = null
         size = 0
     }
 
-    override fun iterator(): Iterator<T> {
-        return object : Iterator<T>{
-
+    override fun iterator(): MutableIterator<T> {
+        return object : MutableIterator<T>{
+            val currentMode = modCount
             var nextElement = first
 
             override fun next(): T {
+                if (currentMode != modCount) throw ConcurrentModificationException()
                 val item = nextElement?.item
                 nextElement = nextElement?.next
                 return item!!
@@ -148,6 +157,9 @@ class NumbersLinkedList<T> : NumbersMutableList<T>, Iterable<T> {
 
             override fun hasNext(): Boolean {
                 return nextElement != null
+            }
+
+            override fun remove() {
             }
 
         }

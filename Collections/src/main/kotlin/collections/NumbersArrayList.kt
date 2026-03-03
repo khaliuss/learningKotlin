@@ -11,10 +11,11 @@ class NumbersArrayList<T> : NumbersMutableList<T>, Iterable<T> {
     override var size: Int = 0
         private set
 
-    override fun add(element: T) {
+    override fun add(element: T): Boolean {
         isNeedExpand()
         arrayList[size] = element
         size++
+        return true
     }
 
     fun isNeedExpand() {
@@ -83,9 +84,9 @@ class NumbersArrayList<T> : NumbersMutableList<T>, Iterable<T> {
         size = 0
     }
 
-    override fun iterator(): Iterator<T> {
+    override fun iterator(): MutableIterator<T> {
 
-        return object : Iterator<T> {
+        return object : MutableIterator<T> {
 
             private var nextIndex = 0
 
@@ -95,6 +96,10 @@ class NumbersArrayList<T> : NumbersMutableList<T>, Iterable<T> {
 
             override fun hasNext(): Boolean {
                 return nextIndex < size
+            }
+
+            override fun remove() {
+                TODO("Not yet implemented")
             }
 
         }

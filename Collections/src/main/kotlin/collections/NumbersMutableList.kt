@@ -1,10 +1,10 @@
 package org.example.collections
 
-interface NumbersMutableList<T> {
+interface NumbersMutableList<T> : MyCollection<T>{
 
-    val size: Int
+    override val size: Int
 
-    fun add(element: T)
+    override fun add(element: T): Boolean
 
     fun add(index: Int, element: T)
 
@@ -12,11 +12,11 @@ interface NumbersMutableList<T> {
 
     operator fun get(index: Int): T
 
-    fun remove(element: T)
+    override fun remove(element: T)
 
-    fun contains(element: T): Boolean
+    override fun contains(element: T): Boolean
 
-    fun clear()
+    override fun clear()
 
 
 }

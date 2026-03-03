@@ -1,8 +1,8 @@
 package org.example.collections
 
-interface NumbersMutableSet {
+interface NumbersMutableSet<T> : MyCollection<T>{
 
-    val size: Int
+    override val size: Int
 
     fun add(number: Int): Boolean
 
@@ -10,7 +10,7 @@ interface NumbersMutableSet {
 
     fun contains(number: Int): Boolean
 
-    fun clear()
+    override fun clear()
 
 
 }

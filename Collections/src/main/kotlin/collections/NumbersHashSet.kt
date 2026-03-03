@@ -1,8 +1,9 @@
+/*
 package org.example.collections
 
 import kotlin.math.abs
 
-class NumbersHashSet : NumbersMutableSet {
+class NumbersHashSet<T> : NumbersMutableSet<T>{
 
     private var elements = arrayOfNulls<Node>(INITIAL_CAPACITY)
 
@@ -87,4 +88,4 @@ class NumbersHashSet : NumbersMutableSet {
         private const val INITIAL_CAPACITY = 16
         private const val LOAD_FACTOR = 0.75
     }
-}
+}*/

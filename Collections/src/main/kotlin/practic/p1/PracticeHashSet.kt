@@ -12,10 +12,13 @@ class PracticeHashSet<T> : PracticeMutableSet<T> , Iterable<T>{
 
     var arrayList = arrayOfNulls<Node<T>>(INITIAL_CAPACITY)
 
+    private var modeCount = 0
+
     override var size: Int = 0
         private set
 
     override fun add(element: T): Boolean {
+        modeCount++
         if (size >= arrayList.size * LOAD_FACTOR) {
             expandArray()
         }
@@ -28,7 +31,7 @@ class PracticeHashSet<T> : PracticeMutableSet<T> , Iterable<T>{
     }
 
     private fun add(element: T, newArray: Array<Node<T>?>): Boolean {
-
+        modeCount++
         val newNode = Node(element)
         val position = getPosition(element, newArray.size)
         var existElement = newArray[position]
@@ -56,7 +59,7 @@ class PracticeHashSet<T> : PracticeMutableSet<T> , Iterable<T>{
 
     //andrew code
     override fun remove(element: T) {
-
+        modeCount++
         val position: Int = getPosition(element, arrayList.size)
         val existedElement :Node<T> = arrayList[position] ?: return
         if (existedElement.item == element) {
@@ -121,6 +124,7 @@ class PracticeHashSet<T> : PracticeMutableSet<T> , Iterable<T>{
     }
 
     override fun clear() {
+        modeCount++
         arrayList = arrayOfNulls(INITIAL_CAPACITY)
         size = 0
     }
@@ -149,11 +153,13 @@ class PracticeHashSet<T> : PracticeMutableSet<T> , Iterable<T>{
     override fun iterator(): Iterator<T> {
         return object : Iterator<T>{
 
+            private val currantModeCount = modeCount
             private var nodeIndex = 0
             private var nextNode = arrayList[nodeIndex]
             private var nextIndex = 0
 
             override fun next(): T {
+                if (currantModeCount != modeCount) throw ConcurrentModificationException()
                 while (nextNode == null){
                     nextNode = arrayList[++nodeIndex]
                 }
