@@ -1,6 +1,9 @@
 package org.example.collections
 
-class NumbersLinkedList<T> : NumbersMutableList<T>, Iterable<T> {
+import org.example.collections.interfaces.unmutable.MyList
+import org.example.collections.interfaces.mutable.MyMutableList
+
+class MyLinkedList<T> : MyList<T>, MyMutableList<T>, Iterable<T> {
 
     private var first: Node<T>? = null
     private var last: Node<T>? = null

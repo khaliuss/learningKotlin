@@ -1,13 +1,7 @@
 package collections
 
-import org.example.collections.NumbersHashSet
-import org.example.collections.NumbersMutableSet
 import org.example.practic.p1.Item
 import org.example.practic.p1.PracticeHashSet
-import org.example.practic.p1.PracticeMutableSet
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

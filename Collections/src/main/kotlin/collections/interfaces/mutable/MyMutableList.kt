@@ -1,6 +1,8 @@
-package org.example.collections
+package org.example.collections.interfaces.mutable
 
-interface NumbersMutableList<T> : MyCollection<T>{
+import org.example.collections.interfaces.unmutable.MyList
+
+interface MyMutableList<T> : MyList<T>, MyMutableCollection<T>{
 
     override val size: Int
 
@@ -10,7 +12,7 @@ interface NumbersMutableList<T> : MyCollection<T>{
 
     fun removeAt(index: Int)
 
-    operator fun get(index: Int): T
+    override operator fun get(index: Int): T
 
     override fun remove(element: T)
 

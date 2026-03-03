@@ -1,6 +1,8 @@
 package org.example.collections
 
-class NumbersArrayList<T> : NumbersMutableList<T>, Iterable<T> {
+import org.example.collections.interfaces.mutable.MyMutableList
+
+class MyArrayList<T> : MyMutableList<T>, Iterable<T> {
 
     companion object {
         private const val INITIAL_CAPACITY = 10
