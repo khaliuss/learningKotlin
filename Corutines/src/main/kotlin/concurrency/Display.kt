@@ -45,15 +45,17 @@ object Display {
             isEnabled = false
             infoArea.text = "Loading book information\n"
             val jobs = mutableListOf<Job>()
+            val books = mutableListOf<Book>()
             repeat(10) {
                 scope.launch {
-                    val book = loadBook()
+                    val book = loadBook().also { books.add(it) }
                     infoArea.append("Book: $it ${book.title}\nYear: ${book.year}\nGender: ${book.gender}\n\n")
                 }.also { jobs.add(it) }
             }
 
             scope.launch {
                 jobs.joinAll()
+                println(books.joinToString (", "))
                 isEnabled = true
             }
         }
