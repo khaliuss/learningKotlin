@@ -11,6 +11,7 @@ import javax.swing.JPanel
 import javax.swing.JScrollPane
 import javax.swing.JTextArea
 import kotlin.apply
+import kotlin.concurrent.thread
 
 object Display {
 
@@ -23,12 +24,15 @@ object Display {
         addActionListener {
             isEnabled = false
             infoArea.text = "Loading book information\n"
-            val book = loadBook()
-            infoArea.append("Book: ${book.title}\nYear: ${book.year}\nGender: ${book.gender}\n")
-            infoArea.append("Loading author information\n")
-            val auth = loadAuth(book)
-            infoArea.append("Name: ${auth.name}\nBio: ${auth.bio}\n")
-            isEnabled = true
+            loadBook { book ->
+                infoArea.append("Book: ${book.title}\nYear: ${book.year}\nGender: ${book.gender}\n")
+                infoArea.append("Loading author information\n")
+
+                loadAuth(book) { author ->
+                    infoArea.append("Name: ${author.name}\nBio: ${author.bio}\n")
+                }
+                isEnabled = true
+            }
         }
     }
     private val timerLabel = JLabel("Time: 00:00")
@@ -50,27 +54,31 @@ object Display {
         startTimer()
     }
 
-    private fun loadBook(): Book {
-        Thread.sleep(1000)
-        return Book("Bobo Jon", 1945, "Kingo")
+    private fun loadBook(callback: (Book) -> Unit) {
+        thread {
+            Thread.sleep(1000)
+            callback(Book("Bobo Jon", 1945, "Kingo"))
+        }
     }
 
-    private fun loadAuth(book: Book): Author {
-        Thread.sleep(1000)
-        return Author("Ami Bobo", "Bobo is a good man and author")
-
+    private fun loadAuth(book: Book, operation: (Author) -> Unit) {
+        thread {
+            Thread.sleep(1000)
+            operation(Author("Ami Bobo", "Bobo is a good man and author"))
+        }
     }
 
 
     private fun startTimer() {
-        var totalSeconds = 0
-        while (true) {
-            val minutes = totalSeconds / 60
-            val seconds = totalSeconds % 60
-            timerLabel.text = String.format("Timer: %02d:%02d", minutes, seconds)
-            Thread.sleep(1000)
-            totalSeconds++
+        thread {
+            var totalSeconds = 0
+            while (true) {
+                val minutes = totalSeconds / 60
+                val seconds = totalSeconds % 60
+                timerLabel.text = String.format("Timer: %02d:%02d", minutes, seconds)
+                Thread.sleep(1000)
+                totalSeconds++
+            }
         }
-
     }
 }
