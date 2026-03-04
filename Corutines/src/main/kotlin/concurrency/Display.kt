@@ -2,10 +2,13 @@ package org.example.concurrency
 
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.joinAll
@@ -44,17 +47,17 @@ object Display {
 
             isEnabled = false
             infoArea.text = "Loading book information\n"
-            val jobs = mutableListOf<Job>()
-            val books = mutableListOf<Book>()
+            val jobs = mutableListOf<Deferred<Book>>()
             repeat(10) {
-                scope.launch {
-                    val book = loadBook().also { books.add(it) }
+                scope.async {
+                    val book = loadBook()
                     infoArea.append("Book: $it ${book.title}\nYear: ${book.year}\nGender: ${book.gender}\n\n")
-                }.also { jobs.add(it) }
+                    book
+                }.let { it -> jobs.add(it) }
             }
 
             scope.launch {
-                jobs.joinAll()
+                val books  = jobs.awaitAll()
                 println(books.joinToString (", "))
                 isEnabled = true
             }
