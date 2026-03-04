@@ -2,10 +2,12 @@ package org.example.coroutines
 
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.example.enteties.Author
 import org.example.enteties.Book
 import java.awt.BorderLayout
@@ -24,7 +26,7 @@ import kotlin.concurrent.thread
 
 object Display {
 
-    private val scope = CoroutineScope(CoroutineName("My coroutine"))
+    private val scope = CoroutineScope(CoroutineName("My coroutine") + Dispatchers.Unconfined)
 
     private val infoArea = JTextArea().apply {
         isEditable = false
@@ -58,7 +60,7 @@ object Display {
         add(topPanel, BorderLayout.NORTH)
         add(JScrollPane(infoArea), BorderLayout.CENTER)
         size = Dimension(400, 300)
-        addWindowListener(object : WindowAdapter(){
+        addWindowListener(object : WindowAdapter() {
             override fun windowClosing(e: WindowEvent?) {
                 scope.cancel()
             }
@@ -70,13 +72,25 @@ object Display {
         startTimer()
     }
 
+    private fun longOperation() {
+        mutableListOf<Int>().apply {
+            repeat(300_000) {
+                add(0, it)
+            }
+        }
+    }
+
     private suspend fun loadBook(): Book {
-        delay(1000)
-        return Book("Bobo Jon", 1945, "Kingo")
+        return withContext(Dispatchers.Default) {
+            longOperation()
+            Book("Bobo Jon", 1945, "Kingo")
+        }
     }
 
     private suspend fun loadAuth(): Author {
-        delay(1000)
+        withContext(Dispatchers.Default) {
+            longOperation()
+        }
         return Author("Ami Bobo", "Bobo is a good man and author")
     }
 
