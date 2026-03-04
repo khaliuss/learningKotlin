@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -15,6 +16,7 @@ import java.awt.Dimension
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.event.WindowListener
+import java.util.concurrent.Executors
 import javax.swing.JButton
 import javax.swing.JFrame
 import javax.swing.JLabel
@@ -26,7 +28,9 @@ import kotlin.concurrent.thread
 
 object Display {
 
-    private val scope = CoroutineScope(CoroutineName("My coroutine") + Dispatchers.Unconfined)
+    val dispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+
+    private val scope = CoroutineScope(CoroutineName("My coroutine") + dispatcher)
 
     private val infoArea = JTextArea().apply {
         isEditable = false
