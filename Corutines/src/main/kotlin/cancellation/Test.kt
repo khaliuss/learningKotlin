@@ -33,6 +33,9 @@ private suspend fun timer() {
             try {
                 if (!coroutineContext.isActive) throw CancellationException() //or use ----> ensureActive()
                 println(seconds++)
+                //delay under the hood realize this ->
+                // -> if (!coroutineContext.isActive) throw CancellationException()
+                //we don't need check it when we use delay
                 delay(1000)
 
             }catch (e: CancellationException){

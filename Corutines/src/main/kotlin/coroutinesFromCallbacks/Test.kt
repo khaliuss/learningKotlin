@@ -1,4 +1,5 @@
-package org.example.callbacks
+package coroutinesFromCallbacks
+
 
 fun main() {
     Display.show()
