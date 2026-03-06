@@ -10,6 +10,7 @@ import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.debounce
@@ -29,7 +30,7 @@ import javax.swing.*
 object Display {
 
     private val queries = Channel<String>()
-    private val state = MutableSharedFlow<ScreenState>()
+    val state = MutableStateFlow<ScreenState>(ScreenState.Initial)
 
     val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     val repository = Repository
@@ -97,9 +98,7 @@ object Display {
             }.launchIn(scope)
 
 
-        state.onStart {
-            emit(ScreenState.Initial)
-        }.onEach {
+        state.onEach {
             when(it){
                 is ScreenState.DefinitionsLoaded -> {
                     searchButton.isEnabled = true
@@ -127,4 +126,11 @@ object Display {
 
 fun main() {
     Display.show()
+    CoroutineScope(Dispatchers.IO).launch {
+        delay(10000)
+        println("Second subscriber")
+        Display.state.collect {
+            println(it)
+        }
+    }
 }
