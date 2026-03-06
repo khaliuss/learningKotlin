@@ -2,6 +2,7 @@ package org.example.coldFlows
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
@@ -21,18 +22,18 @@ private val scope= CoroutineScope(dispatcher)
 
 fun main() {
 
-    val flow : Flow<Int> = Repository.timer
+    val flow : Flow<Int> = Repository2.timer
 
     scope.launch {
-//        flow.collect {
-//            println(it)
-//        }
+        flow.collect {
+            println("Coroutine 1: $it")
+        }
     }
 
     scope. launch {
-        flow//.take(3)
-            .collect {
-            println(it)
+        delay(5000)
+        flow.collect {
+            println("Coroutine 2: $it")
         }
         println("Finished")
     }
