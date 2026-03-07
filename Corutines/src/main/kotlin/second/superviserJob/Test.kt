@@ -1,4 +1,4 @@
-package superVisorJob
+package second.superviserJob
 
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -9,18 +9,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 
-//With SupervisorJob() -->
-//Failure one 1 child does not affect on other children work
-//Like it occur with Job()
-private val parentJob= SupervisorJob()
-val dispatcher = Executors.newCachedThreadPool().asCoroutineDispatcher()
-val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+private val parentJob = SupervisorJob()
+private val handlerException = CoroutineExceptionHandler { _, _ ->
     println("Exception caught")
 }
-val scope = CoroutineScope(parentJob + exceptionHandler + dispatcher)
+private val dispatcher = Executors.newCachedThreadPool().asCoroutineDispatcher()
+private val scope = CoroutineScope(dispatcher + parentJob + handlerException)
 
 fun main() {
-
     scope.launch {
         longOperation(3000,1)
         error("")
@@ -29,10 +25,9 @@ fun main() {
     scope.launch {
         longOperation(4000,2)
     }
-
 }
 
-private suspend fun longOperation(timeMillis: Long,number:Int){
+private suspend fun longOperation(timeMillis: Long,number: Number){
     println("Started: $number")
     delay(timeMillis)
     println("Finished: $number")

@@ -1,8 +1,5 @@
-package coroutinesFromCallbacks
+package org.example.callbacks
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.example.enteties.Author
 import org.example.enteties.Book
 import java.awt.BorderLayout
@@ -15,11 +12,9 @@ import javax.swing.JScrollPane
 import javax.swing.JTextArea
 import kotlin.apply
 import kotlin.concurrent.thread
-import kotlin.coroutines.suspendCoroutine
 
 object Display {
 
-    private val scope = CoroutineScope(Dispatchers.Default)
     private val infoArea = JTextArea().apply {
         isEditable = false
     }
@@ -27,14 +22,15 @@ object Display {
 
     private val loadButton = JButton("Load Book").apply {
         addActionListener {
-            scope.launch {
-                isEnabled = false
-                infoArea.text = "Loading book information\n"
-                val book = loadBook()
+            isEnabled = false
+            infoArea.text = "Loading book information\n"
+            loadBook { book ->
                 infoArea.append("Book: ${book.title}\nYear: ${book.year}\nGender: ${book.gender}\n")
                 infoArea.append("Loading author information\n")
-                val author = loadAuthor(book)
-                infoArea.append("Name: ${author.name}\nBio: ${author.bio}\n")
+
+                loadAuth(book) { author ->
+                    infoArea.append("Name: ${author.name}\nBio: ${author.bio}\n")
+                }
                 isEnabled = true
             }
         }
@@ -46,7 +42,6 @@ object Display {
     }
 
     private val mainFrame: JFrame = JFrame("Book and Author info").apply {
-
         layout = BorderLayout()
         add(topPanel, BorderLayout.NORTH)
         add(JScrollPane(infoArea), BorderLayout.CENTER)
@@ -58,33 +53,17 @@ object Display {
         startTimer()
     }
 
-    private suspend fun loadBook(): Book {
-        return suspendCoroutine { continuation ->
-            loadBook { book ->
-                continuation.resumeWith(Result.success(book))
-            }
-        }
-    }
-
-    private suspend fun loadAuthor(book: Book): Author {
-        return suspendCoroutine { continuation ->
-            loadAuth(book) { author ->
-                continuation.resumeWith(Result.success(author))
-            }
-        }
-    }
-
-    private fun loadBook(callback: (Book) -> Unit) {
+    private fun loadBook(callback: (org.example.enteties.Book) -> Unit) {
         thread {
             Thread.sleep(1000)
-            callback(Book("Bobo Jon", 1945, "Kingo"))
+            callback(_root_ide_package_.org.example.enteties.Book("Bobo Jon", 1945, "Kingo"))
         }
     }
 
-    private fun loadAuth(book: Book, operation: (Author) -> Unit) {
+    private fun loadAuth(book: org.example.enteties.Book, operation: (org.example.enteties.Author) -> Unit) {
         thread {
             Thread.sleep(1000)
-            operation(Author("Ami Bobo", "Bobo is a good man and author"))
+            operation(_root_ide_package_.org.example.enteties.Author("Ami Bobo", "Bobo is a good man and author"))
         }
     }
 

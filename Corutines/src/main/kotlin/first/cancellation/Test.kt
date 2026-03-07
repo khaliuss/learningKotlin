@@ -1,4 +1,4 @@
-package cancellation
+package first.cancellation
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -11,12 +11,12 @@ import java.util.concurrent.Executors
 import kotlin.coroutines.cancellation.CancellationException
 
 val dispatcher = Executors.newCachedThreadPool().asCoroutineDispatcher()
-val scope = CoroutineScope(dispatcher)
+val scope = CoroutineScope(_root_ide_package_.first.cancellation.dispatcher)
 
 fun main() {
 
-    val job = scope.launch {
-        timer()
+    val job = _root_ide_package_.first.cancellation.scope.launch {
+        _root_ide_package_.first.cancellation.timer()
     }
 
     Thread.sleep(3000)
@@ -26,7 +26,7 @@ fun main() {
 
 private suspend fun timer() {
 
-    withContext(dispatcher){
+    withContext(_root_ide_package_.first.cancellation.dispatcher){
         var seconds = 0
 
         while (true) {

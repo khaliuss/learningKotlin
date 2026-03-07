@@ -1,58 +1,67 @@
-package org.example.callbacks
+package second.callbacks
 
-import org.example.enteties.Author
-import org.example.enteties.Book
+import second.enteties.Author
+import second.enteties.Book
 import java.awt.BorderLayout
 import java.awt.Dimension
-import javax.swing.JButton
-import javax.swing.JFrame
-import javax.swing.JLabel
-import javax.swing.JPanel
-import javax.swing.JScrollPane
-import javax.swing.JTextArea
-import kotlin.apply
+import javax.swing.*
 import kotlin.concurrent.thread
 
-object Display {
+object
+Display {
 
-    private val infoArea = JTextArea().apply {
+
+    private val timerLabel = JLabel("Timer: 00:00")
+
+    private val textArea = JTextArea().apply {
         isEditable = false
     }
-
 
     private val loadButton = JButton("Load Book").apply {
         addActionListener {
             isEnabled = false
-            infoArea.text = "Loading book information\n"
+            textArea.text = "Loading book information\n"
             loadBook { book ->
-                infoArea.append("Book: ${book.title}\nYear: ${book.year}\nGender: ${book.gender}\n")
-                infoArea.append("Loading author information\n")
-
+                textArea.append("Book: ${book.title}\nYear: ${book.year}\nGender: ${book.gender}\n")
                 loadAuth(book) { author ->
-                    infoArea.append("Name: ${author.name}\nBio: ${author.bio}\n")
+                    textArea.append("Author: ${author.name}\nBio: ${author.bio}\n")
+                    isEnabled = true
                 }
-                isEnabled = true
+            }
+
+            //bed realization because
+            //this violates Clean Code principles.
+            thread {
+                val book = loadBook2()
+                textArea.append("Book2: ${book.title}\nYear: ${book.year}\nGender: ${book.gender}\n")
             }
         }
     }
-    private val timerLabel = JLabel("Time: 00:00")
-    private val topPanel: JPanel = JPanel(BorderLayout()).apply {
+
+
+    val panel = JPanel().apply {
+        layout = BorderLayout()
         add(timerLabel, BorderLayout.WEST)
         add(loadButton, BorderLayout.EAST)
     }
 
-    private val mainFrame: JFrame = JFrame("Book and Author info").apply {
-
+    val mainFrame = JFrame("Book and Author").apply {
         layout = BorderLayout()
-        add(topPanel, BorderLayout.NORTH)
-        add(JScrollPane(infoArea), BorderLayout.CENTER)
-        size = Dimension(400, 300)
+        add(panel, BorderLayout.NORTH)
+        add(textArea, BorderLayout.CENTER)
+        size = Dimension(600, 400)
     }
 
     fun show() {
-        mainFrame.isVisible = true
         startTimer()
+        mainFrame.isVisible = true
     }
+
+    private fun loadBook2(): Book {
+        Thread.sleep(1000)
+        return Book("Book2", 2002, "Pojo")
+    }
+
 
     private fun loadBook(callback: (Book) -> Unit) {
         thread {
@@ -81,4 +90,5 @@ object Display {
             }
         }
     }
+
 }
